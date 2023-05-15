@@ -18,11 +18,12 @@ window.addEventListener('load', loadEvent);
    * @param {string} content - The content of the HTML element.
    * @param {string} tag - The tagname of the HTML element.
    * @param {string} id - The id of the HTML element.
-   * @param {string} class - The class of the HTML element.
+   * @param {string} className - The class of the HTML element.
    * @param {string} attribute - The attributes of the HTML element.
    */
-function insertHTML(parentElementId, content, tag, id, class, attribute) {
-  insertElement(elementById(parentElementId), createElement(content, tag, id, class, attribute));
+function insertHTML(parentElementId, content, tag, id, className, attribute) {
+  insertElement(elementById(parentElementId),
+    createElement(content, tag, id, className, attribute));
 }
 
 /**
@@ -69,9 +70,9 @@ function insertElement(parentElement, childElement) {
  * @param {string} content - The content of the HTML element.
  * @param {string} tag - The tagname of the HTML element.
    * @param {string} id - The id of the HTML element.
-   * @param {string} class - The class of the HTML element.
+   * @param {string} className - The class of the HTML element.
    * @param {string} attribute - The attributes of the HTML element.
  */
-function createElement(content, tag, id, class, attribute){
-  return `<${tag} id=${id} class=${class} ${attribute}>${content}</${tag}>`;
+function createElement(content, tag, id, className, attribute){
+  return `<${tag} id=${id} class=${className} ${attribute}>${content}</${tag}>`;
 }
