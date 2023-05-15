@@ -14,20 +14,19 @@ window.addEventListener('load', loadEvent);
    * Creates and displays an input bar HTML element.
    */
 function displayInputBar() {
-  insertHTML('root', '', 'div', 'navPanel', '', '');
+  insertHTML('root', '', 'div', 'navPanel');
 
-  insertHTML('navPanel', '', 'div', 'inputBox', 'control has-icons-left');
+  insertHTML('navPanel', '', 'div', 'inputBox', '');
+  addClassesToElement('inputBox', ['control', 'has-icons-left']);
+
   // eslint-disable-next-line max-len
-  insertHTML('inputBox', '', 'input', 'search', 'input is-medium', 'placeholder="Type in a city\'s name"');
-  insertHTML('inputBox', '', 'span', '', 'icon is-left', '');
-  /*
-  <div class="control has-icons-left has-icons-right" id='inputBox'>
-    <input class="input is-medium" type="email" placeholder="Email">
-    <span class="icon is-left">
-      <i class="fas fa-envelope"></i>
-    </span>
-  </div>
-   */
+  insertHTML('inputBox', '', 'input', 'search', '', 'placeholder="Type in a city\'s name"');
+  addClassesToElement('search', ['input', 'is-medium', 'is-rounded']);
+
+  insertHTML('inputBox', '', 'span', 'searchIcon', '', '');
+  addClassesToElement('searchIcon', ['icon', 'is-left']);
+
+  insertHTML('searchIcon', '', 'img', '', '', 'src="icons/search-line.svg"');
 }
 
 

@@ -1,4 +1,4 @@
-/*body,
+body,
 body *,
 body *::before,
 body *::after {margin:0;padding:0;border:0;background:transparent;box-sizing:border-box;text-decoration:none;outline:none;font-family:inherit;}
@@ -17,11 +17,25 @@ a{cursor: pointer; color: inherit;}
 textarea{resize: none;}
 
 [readonly] + span,
-[readonly]{pointer-events: none; opacity: .4;}*/
+[readonly]{pointer-events: none; opacity: .4;}
 
 body {
-    font-family: 'Montserrat', sans-serif;
-    background-color: #D90D1E;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #590202; /*#D90D1E*/
+  height: 100vh;
 }
 
-/*#D90D1E*/
+#navPanel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20vh;
+}
+
+#search {
+  width: 40vw;
+}
+
+span img {
+  width: 24px;
+}
