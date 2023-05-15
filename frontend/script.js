@@ -17,10 +17,34 @@ window.addEventListener('load', loadEvent);
    * @param {object} parentElementId - The ID of the HTML element you want to be the parent of the new HTML element.
    * @param {string} content - The content of the HTML element.
    * @param {string} tag - The tagname of the HTML element.
-   * @param {string} properties - The properties of the HTML element.
+   * @param {string} id - The id of the HTML element.
+   * @param {string} class - The class of the HTML element.
+   * @param {string} attribute - The attributes of the HTML element.
    */
-function insertHTML(parentElementId, content, tag, properties) {
-  insertElement(elementById(parentElementId), createElement(content, tag, properties));
+function insertHTML(parentElementId, content, tag, id, class, attribute) {
+  insertElement(elementById(parentElementId), createElement(content, tag, id, class, attribute));
+}
+
+/**
+ * Add classes.
+ * @param {string} id - The id of the HTML element.
+ * @param {Array} classes - The array of the classes you want to add to the HTML element.
+ */
+function addClassesToElement(id, classes) {
+  classes.forEach((className) => {
+    elementById(id).classList.add(className);
+  });
+}
+
+/**
+ * Remove classes.
+ * @param {string} id - The id of the HTML element.
+ * @param {Array} classes - The array of the classes you want to remove from the HTML element.
+ */
+function removeClassesFromElement(id, classes) {
+  classes.forEach((className) => {
+    elementById(id).classList.remove(className);
+  });
 }
 
 /**
@@ -44,8 +68,10 @@ function insertElement(parentElement, childElement) {
  * Creates an HTML element.
  * @param {string} content - The content of the HTML element.
  * @param {string} tag - The tagname of the HTML element.
- * @param {string} properties - The properties of the HTML element.
+   * @param {string} id - The id of the HTML element.
+   * @param {string} class - The class of the HTML element.
+   * @param {string} attribute - The attributes of the HTML element.
  */
-function createElement(content, tag, properties){
-  return `<${tag} ${properties}>${content}</${tag}>`;
+function createElement(content, tag, id, class, attribute){
+  return `<${tag} id=${id} class=${class} ${attribute}>${content}</${tag}>`;
 }
