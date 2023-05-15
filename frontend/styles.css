@@ -21,7 +21,7 @@ textarea{resize: none;}
 
 body {
   font-family: 'Montserrat', sans-serif;
-  background-color: #590202; /*#D90D1E*/
+  background-color: #F21B2D; /*#D90D1E*/
   height: 100vh;
 }
 
@@ -36,7 +36,63 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 80vh;
+  height: 60vh;
+}
+.keret {
+  color: whitesmoke;
+  position: relative;
+  width: 720px;
+  height: 360px;
+  border-radius: 20px;
+  background-image: url(icons/image-png.png);
+  background-size: cover;
+  background-color: rgba(77, 82, 86, 0.75);
+  background-blend-mode: multiply;
+}
+.time {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 0px;
+  font-size: larger;
+  height: 40px;
+  width: 180px;
+  margin: 1vh;
+  background-color: rgba(13, 13, 13, 0.75);
+  border-radius: 20px;
+}
+.description {
+  position: absolute;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  bottom: 0;
+  height: 40px;
+  width: 98vh;
+  margin: 1vh;
+  padding-left: 2vh;
+  font-size: larger;
+  background-color: rgba(13, 13, 13, 0.75);
+  border-radius: 20px;
+}
+.temperature {
+  position: absolute;
+  left: 1vh;
+  top: 60%;
+  font-size: larger;
+  text-shadow: 0 0 12px black, 0 0 12px black, 0 0 12px black;
+  border-radius: 20px;
+  font-size: 64px;
+}
+.condition-icon {
+  position: absolute;
+  right: 1vh;
+  bottom: 10%;
+  width: 30%;
+  font-size: larger;
+  background-color: rgba(13, 13, 13, 0.75);
+  font-size: 64px;
 }
 
 #search {
