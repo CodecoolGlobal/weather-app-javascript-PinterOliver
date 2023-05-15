@@ -21,7 +21,11 @@ textarea{resize: none;}
 
 body {
   font-family: 'Montserrat', sans-serif;
-  background-color: #F21B2D; /*#D90D1E*/
+  /*background-color: #F21B2D; /*#D90D1E*/
+  background-image: url(icons/pexels-miguel-a-padrinan-19670.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   height: 100vh;
 }
 
