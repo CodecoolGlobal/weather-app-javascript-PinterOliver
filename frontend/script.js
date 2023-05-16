@@ -100,7 +100,7 @@ function displayInputBar() {
   insertHTML('root', '', 'div', 'id=navPanel');
   insertHTML('navPanel', '', 'div', 'id=inputBox class="control has-icons-left"');
   insertHTML('inputBox', '', 'input',
-    'id=search placeholder=Type in a city\'s name class="input is-medium is-rounded"');
+    'id=search placeholder="Type in a city\'s name" class="input is-medium is-rounded"');
   insertHTML('inputBox', '', 'span', 'id=searchIcon class="icon is-left"');
   insertHTML('searchIcon', '', 'img', 'src=icons/search-line.svg');
 }
