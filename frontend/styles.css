@@ -61,7 +61,7 @@ body {
 .temperature, .sky {
   width: 100%;
   padding: 2vh;
-  
+  line-height: 100%;
 }
 
 .details {
@@ -96,18 +96,40 @@ hr {
     margin: 0 5%;
 }
 
+.skyimg {
+  height: 64px;
+  width: 64px;
+  margin: -10px;
+}
+
 .detailsimg {
-  height: 70px;
-  width: 70px;
-  margin-left: -10px;
-  margin-right: -10px;
+  height: 24px;
+  width: 24px;
+  margin-right: 10px;
+}
+
+.bottomdetails {
+  bottom: 0;
+  position: absolute;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-bottom: 3vh;
+}
+
+.topdetails {
+  top: 0;
+  position: absolute;
+  width: 100%;
+  padding-top: 3vh;
 }
 
 .cityname {
   text-align: right;
   right: 25%;
   bottom: 0;
-  padding: 2.5%;
+  padding: 3vh;
   position: absolute;
   font-size: 60px;
   font-weight: 400;
@@ -126,7 +148,7 @@ hr {
   /*justify-content: center;*/
   flex-direction: column;
   height: 100%;
-  background-color: #cacacab4;
+  background-color: rgba(108, 122, 122, 0.33);
   border-radius: 0 20px 20px 0;
   
 
