@@ -55,7 +55,6 @@ body {
   background-blend-mode: multiply;
   justify-content: center;
   align-items: center;
-
 }
 
 .temperature, .sky {
@@ -134,10 +133,10 @@ hr {
   font-size: 60px;
   font-weight: 400;
   line-height: 100%;
-  /*text-shadow: 0 0 40px #0d0d0d, 0 0 20px #0d0d0d, 0 0 10px #0d0d0d;*/
-  background: -webkit-linear-gradient(#adadad, #ffffff);
+  text-shadow: 0 0 40px #0d0d0d, 0 0 20px #0d0d0d, 0 0 10px #0d0d0d;
+  /*background: -webkit-linear-gradient(#adadad, #ffffff);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: transparent;*/
 }
 
 .home {
