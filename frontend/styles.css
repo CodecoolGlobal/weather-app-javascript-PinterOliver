@@ -45,13 +45,101 @@ body {
 .keret {
   color: whitesmoke;
   position: relative;
-  width: 720px;
-  height: 360px;
+  width: 60vw;
+  height: 60vh;
   border-radius: 20px;
   background-image: url(images/image-png.png);
   background-size: cover;
-  background-color: rgba(77, 82, 86, 0.75);
+  background-color: rgba(77, 82, 86, 0.33);
+  background-position: center;
   background-blend-mode: multiply;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.temperature, .sky {
+  width: 100%;
+  padding: 2vh;
+  
+}
+
+.details {
+  font-size: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 0.5vh;
+}
+
+.sky {
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.extra {
+  font-style: italic;
+}
+
+.temperature {
+  text-align: center;
+  font-size: 64px;
+  padding: 2vh;
+}
+
+hr {
+  height: 1px;
+    background: white;
+    border: none;
+    margin: 0 5%;
+}
+
+.detailsimg {
+  height: 70px;
+  width: 70px;
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+.cityname {
+  text-align: right;
+  right: 25%;
+  bottom: 0;
+  padding: 2.5%;
+  position: absolute;
+  font-size: 60px;
+  font-weight: 400;
+  line-height: 100%;
+  /*text-shadow: 0 0 40px #0d0d0d, 0 0 20px #0d0d0d, 0 0 10px #0d0d0d;*/
+  background: -webkit-linear-gradient(#adadad, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.home {
+  right: 0;
+  width: 25%;
+  position: absolute;
+  display: flex;
+  /*justify-content: center;*/
+  flex-direction: column;
+  height: 100%;
+  background-color: #cacacab4;
+  border-radius: 0 20px 20px 0;
+  
+
+  /*box-shadow:
+  inset 0 0 50px rgba(155, 155, 155, 0.5),
+  inset 20px 0 80px rgba(255, 255, 255, 0.5),
+  inset -20px 0 80px rgba(255, 255, 255, 0.5),
+  inset 20px 0 300px rgba(255, 255, 255, 0.5),
+  inset -20px 0 300px rgba(255, 255, 255, 0.5),
+  /0 0 50px rgb(155, 155, 155),/
+  /-10px 0 80px rgb(255, 255, 255),/
+  10px 0 80px rgba(255, 255, 255, 0.5);*/
+  backdrop-filter: blur(3.3px);
 }
 
 #search {
