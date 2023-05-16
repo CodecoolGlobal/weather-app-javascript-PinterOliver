@@ -6,7 +6,7 @@ const loadEvent = () => {
   //  getTheWeather();
 
   displayInputBar();
-  document.getElementById('search').addEventListener('keydown', (event) => recieveWeather(event));
+  document.getElementById('search').addEventListener('change', (event) => recieveWeather(event));
   //main();
 
 };
