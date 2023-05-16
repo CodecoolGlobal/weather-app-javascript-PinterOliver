@@ -88,6 +88,13 @@ body {
   padding: 2vh;
 }
 
+.gray-text-shadow {
+  text-shadow: 0 0 10px #3B403F;
+}
+.black-text-shadow {
+  text-shadow: 0 0 10px #0D0D0D;
+}
+
 hr {
   height: 1px;
     background: white;
