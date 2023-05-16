@@ -181,7 +181,16 @@ hr {
 }
 .favorite:active, .favorite:focus {
   background-image: url(icons/heart-2-fill.svg);
-} 
+}
+
+.date {
+  position: absolute;
+  top: 0;
+  right: 25%;
+  text-align: right;
+  margin: 3vh;
+
+}
 
 #search {
   width: 40vw;
