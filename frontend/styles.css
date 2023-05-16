@@ -20,8 +20,8 @@ textarea{resize: none;}
 [readonly]{pointer-events: none; opacity: .4;}
 
 body {
-  font-family: 'Montserrat', sans-serif;
-  /*background-color: #F21B2D; /*#D90D1E*/
+  /*font-family: 'Montserrat', sans-serif;*/
+  font-family: 'Instrument Sans', sans-serif;
   background-image: url(images/site-background.jpg);
   background-position: center;
   background-repeat: no-repeat;
