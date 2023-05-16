@@ -43,7 +43,7 @@ body {
   height: 60vh;
 }
 
-.card {
+#card {
   color: whitesmoke;
   position: relative;
   width: 60vw;
@@ -88,11 +88,7 @@ body {
 .gray-text-shadow {
   text-shadow: 0 0 10px #3B403F;
 }
-/*
-.black-text-shadow {
-  text-shadow: 0 0 10px #0D0D0D;
-}
-*/
+
 hr {
   height: 1px;
     background: white;
@@ -112,12 +108,12 @@ hr {
   margin-right: 10px;
 }
 
-.bottomdetails, .topdetails {
+#bottomdetails, #topdetails {
   position: absolute;
   width: 100%;
 }
 
-.bottomdetails {
+#bottomdetails {
   bottom: 0;
   padding-bottom: 3vh;
   align-items: center;
@@ -125,7 +121,7 @@ hr {
   flex-direction: column;
 }
 
-.topdetails {
+#topdetails {
   top: 0;
   padding-top: 3vh;
 }
@@ -152,7 +148,7 @@ hr {
   text-shadow: 0 0 10px #0d0d0d, 0 0 5px #0d0d0d;
 }
 
-.sidepanel {
+ #sidepanel {
   right: 0;
   width: 25%;
   position: absolute;

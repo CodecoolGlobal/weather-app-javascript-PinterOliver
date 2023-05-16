@@ -49,7 +49,7 @@ function placeholder() {
       },
       humidity: '25',
       'last_updated': '2023-05-14 13:00',
-      'temp_c': 18,
+      'temp_c': '18',
       'wind_dir': 'N',
       'wind_kph': '15.1',
     },
@@ -63,8 +63,30 @@ function placeholder() {
 
 // DOM Manipulations
 
-function displayCard() {
-  //insertHTML('root', '', 'div', 'id=container');
+function displayCard(city) {
+  if (elementById('container')) elementById('container').remove();
+  insertHTML('root', '', 'div', 'id=container');
+  insertHTML('container', '', 'div', 'id=card');
+  insertHTML('card', '', 'div', 'id=sidepanel');
+  insertHTML('sidepanel', '', 'div', 'id=topdetails');
+  insertHTML('topdetails', `${city.current.temp_c} °C`, 'div', 'class="temperature gray-text-shadow"');
+  insertHTML('topdetails', '', 'hr', '');
+  insertHTML('topdetails', '', 'div', 'id=sky class="sky gray-text-shadow"');
+  insertHTML('sky', '', 'img', `class=skyimg src=${city.current.condition.icon}`);
+  insertHTML('sky', city.current.condition.text, 'span', '');
+  insertHTML('sidepanel', '', 'div', 'id=bottomdetails');
+  insertHTML('bottomdetails', '', 'div',
+    'id=humidity class="details gray-text-shadow" title=Humidity');
+  insertHTML('humidity', '', 'img', 'class=detailsimg src="icons/mist-line.svg"');
+  insertHTML('humidity', `${city.current.humidity} %`, 'span', '');
+  insertHTML('bottomdetails', '', 'div',
+    'id=wind class="details gray-text-shadow" title="Wind velocity and direction"');
+  insertHTML('wind', '', 'img', 'class=detailsimg src="icons/windy-line.svg"');
+  insertHTML('wind', `${city.current.wind_kph} km/h (${city.current.wind_dir})`, 'span', '');
+  insertHTML('card', '', 'div', 'id=bottommain');
+  insertHTML('bottommain', city.location.name, 'div', 'class=cityname');
+  insertHTML('card', '', 'div', 'class=favorite title="Add to favorites"');
+  insertHTML('card', city.current.last_updated, 'div', 'class="date black-text-shadow"');
 }
 
 function processInputChange() {
