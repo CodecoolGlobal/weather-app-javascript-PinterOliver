@@ -42,7 +42,8 @@ body {
   align-items: center;
   height: 60vh;
 }
-.keret {
+
+.card {
   color: whitesmoke;
   position: relative;
   width: 60vw;
@@ -57,44 +58,41 @@ body {
   align-items: center;
 }
 
-.temperature, .sky {
-  width: 100%;
-  padding: 2vh;
-  line-height: 100%;
-}
-
-.details {
-  font-size: 25px;
+.temperature, .sky, .details {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-bottom: 0.5vh;
+  text-align: center;
+  width: 100%;
+}
+
+.temperature, .sky {
+  line-height: 100%;
+  padding: 2vh;
+}
+
+.temperature {
+  font-size: 64px;
+  padding: 2vh;
 }
 
 .sky {
   font-size: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.extra {
-  font-style: italic;
-}
-
-.temperature {
-  text-align: center;
-  font-size: 64px;
-  padding: 2vh;
+.details {
+  font-size: 25px;
+  padding-bottom: 0.5vh;
 }
 
 .gray-text-shadow {
   text-shadow: 0 0 10px #3B403F;
 }
+/*
 .black-text-shadow {
   text-shadow: 0 0 10px #0D0D0D;
 }
-
+*/
 hr {
   height: 1px;
     background: white;
@@ -114,36 +112,47 @@ hr {
   margin-right: 10px;
 }
 
+.bottomdetails, .topdetails {
+  position: absolute;
+  width: 100%;
+}
+
 .bottomdetails {
   bottom: 0;
-  position: absolute;
+  padding-bottom: 3vh;
   align-items: center;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  padding-bottom: 3vh;
 }
 
 .topdetails {
   top: 0;
-  position: absolute;
-  width: 100%;
   padding-top: 3vh;
 }
 
-.cityname {
+.cityname, .date {
+  position: absolute;
   text-align: right;
   right: 25%;
-  bottom: 0;
   padding: 3vh;
-  position: absolute;
-  font-size: 60px;
-  font-weight: 400;
   line-height: 100%;
-  text-shadow: 0 0 40px #0d0d0d, 0 0 20px #0d0d0d, 0 0 10px #0d0d0d;
 }
 
-.home {
+.cityname {
+  bottom: 0;
+  font-size: 60px;
+  font-weight: 400;
+  text-shadow: 0 0 20px #0d0d0d, 0 0 10px #0d0d0d;
+}
+
+.date {
+  top: 0;
+  font-size: 25px;
+  font-weight: 200;
+  text-shadow: 0 0 10px #0d0d0d, 0 0 5px #0d0d0d;
+}
+
+.sidepanel {
   right: 0;
   width: 25%;
   position: absolute;
@@ -173,23 +182,16 @@ hr {
   backdrop-filter: blur(10px);
   transition: .2s;
 }
+
 .favorite:hover {
   /*background-color: rgba(108, 122, 122, 0.25);*/
   background-color: rgba(255, 255, 255, 0.3);
   cursor: pointer;
   transition: .2s;
 }
+
 .favorite:active, .favorite:focus {
   background-image: url(icons/heart-2-fill.svg);
-}
-
-.date {
-  position: absolute;
-  top: 0;
-  right: 25%;
-  text-align: right;
-  margin: 3vh;
-
 }
 
 #search {

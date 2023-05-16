@@ -1,14 +1,11 @@
 const WEATHER_API_KEY = '664e3a10f526495492f112135231505';
+const favourites = [];
 
 const loadEvent = () => {
   // MAIN
-
-  //  getTheWeather();
-
   displayInputBar();
-  document.getElementById('search').addEventListener('change', (event) => recieveWeather(event));
-  //main();
-
+  processInputChange();
+  displayCard(placeholder());
 };
 
 window.addEventListener('load', loadEvent);
@@ -23,7 +20,7 @@ async function recieveWeather(event) {
   };
   const recieved = await getFetchOf(proba);
   console.log(recieved);
-  //draw the card
+  //displayCard(recieved);
 }
 
 async function getFetchOf(object) {
@@ -43,26 +40,47 @@ async function getFetchOf(object) {
   return jsonData;
 }
 
+function placeholder() {
+  const city = {
+    current: {
+      condition: {
+        icon: '//cdn.weatherapi.com/weather/64x64/day/113.png',
+        text: 'Sunny',
+      },
+      humidity: '25',
+      'last_updated': '2023-05-14 13:00',
+      'temp_c': 18,
+      'wind_dir': 'N',
+      'wind_kph': '15.1',
+    },
+    location: {
+      name: 'Budapest',
+    },
+  };
+  return city;
+}
+
 
 // DOM Manipulations
+
+function displayCard() {
+  //insertHTML('root', '', 'div', 'id=container');
+}
+
+function processInputChange() {
+  document.getElementById('search').addEventListener('change', (event) => recieveWeather(event));
+}
 
 /**
    * Creates and displays an input bar HTML element.
    */
 function displayInputBar() {
-  insertHTML('root', '', 'div', 'navPanel');
-
-  insertHTML('navPanel', '', 'div', 'inputBox', '');
-  addClassesToElement('inputBox', ['control', 'has-icons-left']);
-
-  // eslint-disable-next-line max-len
-  insertHTML('inputBox', '', 'input', 'search', '', 'placeholder="Type in a city\'s name"');
-  addClassesToElement('search', ['input', 'is-medium', 'is-rounded']);
-
-  insertHTML('inputBox', '', 'span', 'searchIcon', '', '');
-  addClassesToElement('searchIcon', ['icon', 'is-left']);
-
-  insertHTML('searchIcon', '', 'img', '', '', 'src="icons/search-line.svg"');
+  insertHTML('root', '', 'div', 'id=navPanel');
+  insertHTML('navPanel', '', 'div', 'id=inputBox class="control has-icons-left"');
+  insertHTML('inputBox', '', 'input',
+    'id=search placeholder=Type in a city\'s name class="input is-medium is-rounded"');
+  insertHTML('inputBox', '', 'span', 'id=searchIcon class="icon is-left"');
+  insertHTML('searchIcon', '', 'img', 'src=icons/search-line.svg');
 }
 
 
@@ -73,13 +91,11 @@ function displayInputBar() {
    * @param {string} parentElementId - The ID of the HTML element you want to be the parent of the new HTML element.
    * @param {string} content - The content of the HTML element.
    * @param {string} tag - The tagname of the HTML element.
-   * @param {string} id - The id of the HTML element.
-   * @param {string} className - The class of the HTML element.
-   * @param {string} attribute - The attributes of the HTML element.
+   * @param {string} attributes - The attributes of the HTML element.
    */
-function insertHTML(parentElementId, content, tag, id, className, attribute) {
+function insertHTML(parentElementId, content, tag, attributes) {
   insertElement(elementById(parentElementId),
-    createElement(content, tag, id, className, attribute));
+    createElement(content, tag, attributes));
 }
 
 /**
@@ -125,10 +141,8 @@ function insertElement(parentElement, childElement) {
  * Creates an HTML element.
  * @param {string} content - The content of the HTML element.
  * @param {string} tag - The tagname of the HTML element.
-   * @param {string} id - The id of the HTML element.
-   * @param {string} className - The class of the HTML element.
-   * @param {string} attribute - The attributes of the HTML element.
+   * @param {string} attributes - The attributes of the HTML element.
  */
-function createElement(content, tag, id, className, attribute){
-  return `<${tag} id=${id} class=${className} ${attribute}>${content}</${tag}>`;
+function createElement(content, tag, attributes){
+  return `<${tag} ${attributes}>${content}</${tag}>`;
 }
