@@ -2,10 +2,46 @@ const WEATHER_API_KEY = '664e3a10f526495492f112135231505';
 
 const loadEvent = () => {
   // MAIN
+
+  //  getTheWeather();
+
   displayInputBar();
+  document.getElementById('search').addEventListener('keydown', (event) => recieveWeather(event));
+  //main();
+
 };
 
 window.addEventListener('load', loadEvent);
+
+async function recieveWeather(event) {
+  // töltődő jel, amíg nem kap adatot
+  const proba = {
+    site: 'http://api.weatherapi.com/v1/current.json',
+    key: WEATHER_API_KEY,
+    q: 'London',
+    aqi: 'no',
+  };
+  const recieved = await getFetchOf(proba);
+  console.log(recieved);
+  //draw the card
+}
+
+async function getFetchOf(object) {
+  let url = object.site;
+  let isFirst = true;
+  for (const key in object) {
+    if (key !== 'site') {
+      if (isFirst) {
+        url += '?';
+        isFirst = !isFirst;
+      } else url += '&';
+      url += `${key}=${object[key]}`;
+    }
+  }
+  const response = await fetch(url);
+  const jsonData = await response.json();
+  return jsonData;
+}
 
 
 // DOM Manipulations
