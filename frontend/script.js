@@ -1,28 +1,43 @@
 const WEATHER_API_KEY = '664e3a10f526495492f112135231505';
-const favourites = [];
+const favorites = [];
 
 const loadEvent = () => {
   // MAIN
   displayInputBar();
-  processInputChange();
-  displayCard(placeholder());
+  displayCard(placeholderBudapest());
 };
 
 window.addEventListener('load', loadEvent);
 
 async function recieveWeather(event) {
   // töltődő jel, amíg nem kap adatot
-  const proba = {
+  const cityName = event.target.value;
+  const NUMBER_OF_DAYS_TO_FORECAST = 8;
+  const urlParts = {
+    site: 'http://api.weatherapi.com/v1/current.json',
+    key: WEATHER_API_KEY,
+    q: cityName,
+    days: NUMBER_OF_DAYS_TO_FORECAST.toString(),
+    aqi: 'no',
+    alerts: 'no',
+  };
+  //const recieved = await getFetchOf(placeholderLondon());
+  const recieved = await getFetchOf(urlParts);
+  displayCard(recieved);
+}
+/*
+function placeholderLondon() {
+  const urlParts = {
     site: 'http://api.weatherapi.com/v1/current.json',
     key: WEATHER_API_KEY,
     q: 'London',
+    days: '8',
     aqi: 'no',
+    alerts: 'no',
   };
-  const recieved = await getFetchOf(proba);
-  console.log(recieved);
-  //displayCard(recieved);
+  return urlParts;
 }
-
+*/
 async function getFetchOf(object) {
   let url = object.site;
   let isFirst = true;
@@ -40,7 +55,7 @@ async function getFetchOf(object) {
   return jsonData;
 }
 
-function placeholder() {
+function placeholderBudapest() {
   const city = {
     current: {
       condition: {
@@ -59,7 +74,6 @@ function placeholder() {
   };
   return city;
 }
-
 
 // DOM Manipulations
 
@@ -84,13 +98,29 @@ function displayCard(city) {
   insertHTML('wind', '', 'img', 'class=detailsimg src="icons/windy-line.svg"');
   insertHTML('wind', `${city.current.wind_kph} km/h (${city.current.wind_dir})`, 'span', '');
   insertHTML('card', '', 'div', 'id=bottommain');
-  insertHTML('bottommain', city.location.name, 'div', 'class=cityname');
-  insertHTML('card', '', 'div', 'class=favorite title="Add to favorites"');
+  insertHTML('bottommain', city.location.name, 'div', 'id=cityname class=cityname');
+  insertHTML('card', '', 'div', 'id=favorite class=favorite title="Add to favorites"');
+  if (favorites.includes(city.location.name)) {
+    elementById('favorite').classList.add('activefavorite');
+  }
+  processFavoriteClick();
   insertHTML('card', city.current.last_updated, 'div', 'class="date black-text-shadow"');
 }
 
 function processInputChange() {
-  document.getElementById('search').addEventListener('change', (event) => recieveWeather(event));
+  elementById('search').addEventListener('change', (event) => recieveWeather(event));
+}
+
+function processFavoriteClick() {
+  elementById('favorite').addEventListener('click', changeFavorite);
+}
+
+function changeFavorite() {
+  elementById('favorite').classList.toggle('activefavorite');
+  const cityName = elementById('cityname').innerHTML;
+  const index = favorites.indexOf(cityName);
+  if (index > -1) favorites.splice(index, 1);
+  else favorites.push(cityName);
 }
 
 /**
@@ -103,8 +133,8 @@ function displayInputBar() {
     'id=search placeholder="Type in a city\'s name" class="input is-medium is-rounded"');
   insertHTML('inputBox', '', 'span', 'id=searchIcon class="icon is-left"');
   insertHTML('searchIcon', '', 'img', 'src=icons/search-line.svg');
+  processInputChange();
 }
-
 
 // Create HTML Elements
 
@@ -120,12 +150,13 @@ function insertHTML(parentElementId, content, tag, attributes) {
     createElement(content, tag, attributes));
 }
 
+/*
 /**
  * Add classes.
  * @param {string} id - The id of the HTML element.
  * @param {Array} classes - The array of the classes you want to add to the HTML element.
  */
-function addClassesToElement(id, classes) {
+/*function addClassesToElement(id, classes) {
   classes.forEach((className) => {
     elementById(id).classList.add(className);
   });
@@ -136,11 +167,12 @@ function addClassesToElement(id, classes) {
  * @param {string} id - The id of the HTML element.
  * @param {Array} classes - The array of the classes you want to remove from the HTML element.
  */
-function removeClassesFromElement(id, classes) {
+/*function removeClassesFromElement(id, classes) {
   classes.forEach((className) => {
     elementById(id).classList.remove(className);
   });
 }
+*/
 
 /**
  * Get an HTML element by its ID.

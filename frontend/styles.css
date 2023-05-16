@@ -57,6 +57,18 @@ body {
   align-items: center;
 }
 
+.temperature, .cityname {
+  font-size: 8.3vh;
+}
+
+.sky {
+  font-size: 5.5vh;
+}
+
+.details, .date {
+  font-size: 3.2vh;
+}
+
 .temperature, .sky, .details {
   display: flex;
   align-items: center;
@@ -71,17 +83,11 @@ body {
 }
 
 .temperature {
-  font-size: 8.8vh;
-  padding: 2vh;
-}
-
-.sky {
-  font-size: 5.5vh;
+  padding-top: 0;
 }
 
 .details {
-  font-size: 3.4vh;
-  padding-bottom: 0.5vh;
+  padding-top: 0.5vh;
 }
 
 .gray-text-shadow {
@@ -125,26 +131,34 @@ hr {
   padding-top: 3vh;
 }
 
-.cityname, .date {
+.date {
   position: absolute;
-  text-align: right;
+  top: 0;
   right: 25%;
+  font-weight: 200;
   padding: 3vh;
+  text-shadow: 0 0 1.4vh #0d0d0d, 0 0 0.7vh #0d0d0d;
+}
+
+.cityname, .date {
+  text-align: right;
   line-height: 100%;
+}
+
+#bottommain {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  flex-direction: column;
+  height: 100%;
+  width: 75%;
+  padding: 3vh;
 }
 
 .cityname {
   bottom: 0;
-  font-size: 8.8vh;
   font-weight: 400;
   text-shadow: 0 0 2.8vh #0d0d0d, 0 0 1.4vh #0d0d0d;
-}
-
-.date {
-  top: 0;
-  font-size: 3.4vh;
-  font-weight: 200;
-  text-shadow: 0 0 1.4vh #0d0d0d, 0 0 0.7vh #0d0d0d;
 }
 
  #sidepanel {
@@ -174,7 +188,7 @@ hr {
   background-position: center;
   /*background-color: rgba(255, 255, 255, 0.1);*/
   background-color: rgba(108, 122, 122, 0.33);
-  backdrop-filter: blur(1.4vh);
+  backdrop-filter: blur(0.8vh);
   transition: .2s;
 }
 
