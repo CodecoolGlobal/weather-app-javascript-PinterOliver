@@ -24,7 +24,7 @@ async function recieveAutocomplete(event) {
   }
 }
 
-function recieveWeather(event) {
+async function recieveWeather(event) {
   // töltődő jel, amíg nem kap adatot
   let cityName = event.target.value;
   const foundFavCities = search(FAVORITES, cityName);
@@ -33,10 +33,7 @@ function recieveWeather(event) {
   } else if (document.querySelector('.is-active')) {
     cityName = elementById('city-0').firstChild.innerText;
   }
-  processWeater(cityName);
-}
 
-async function processWeater(cityName) {
   if (cityName.length >= 3) {
     const NUMBER_OF_DAYS_TO_FORECAST = 8;
     const NUMBER_OF_PICTURES = 1;
@@ -141,56 +138,35 @@ function displaySuggestions (cities, input) {
     insertHTML('suggestionDropDown', '', 'div', 'id="dropdown-menu" class="dropdown-menu"');
     insertHTML('dropdown-menu', '', 'div', 'id="dropdown-content" class="dropdown-content"');
 
-    createCitySuggestions(cities, foundFavCities);
-
-  }
-}
-
-function createCitySuggestions(cities, foundFavCities) {
-  if (foundFavCities.length > 0) {
-    foundFavCities.forEach((cityName, index) => {
-      insertHTML('dropdown-content', '', 'button',
-        `id="favCity-${index}" class="dropdown-item favorite-dropdown-item"`);
-      insertHTML(`favCity-${index}`, '', 'img',
-        'class="favorite-dropdown-icon" src="icons/heart-2-fill-black.svg"');
-      elementById(`favCity-${index}`).insertAdjacentHTML('beforeend', `${cityName}`);
-    });
-  }
-  if (cities.length > 0 && foundFavCities.length > 0) {
-    insertHTML('dropdown-content', '', 'hr', 'class="dropdown-divider"');
-  }
-  if (cities.length > 0) {
-    cities.forEach((cityName, index) => {
-      insertHTML('dropdown-content', '', 'button', `id=city-${index} class="dropdown-item"`);
-      insertHTML(`city-${index}`, cityName[0], 'span', 'class="dropdown-city"');
-      insertHTML(`city-${index}`, cityName[1], 'span', 'class="dropdown-region"');
-
-    });
-  }
-  makeTheButtonsClickable();
-}
-
-function makeTheButtonsClickable() {
-  console.log([...document.querySelectorAll('#dropdown-content button')]);
-  [...document.querySelectorAll('#dropdown-content button')].forEach((button) => {
-    function myFunction(myButton) {
-      console.log('asd');
-      elementById('search').value = processWeater(myButton.firstChild.innerText);
-      console.log(elementById('search').value);
-      processWeater(myButton.firstChild.innerText);
+    if (foundFavCities.length > 0) {
+      foundFavCities.forEach((cityName, index) => {
+        insertHTML('dropdown-content', '', 'button',
+          `id="favCity-${index}" class="dropdown-item favorite-dropdown-item"`);
+        insertHTML(`favCity-${index}`, '', 'img',
+          'class="favorite-dropdown-icon" src="icons/heart-2-fill-black.svg"');
+        elementById(`favCity-${index}`).insertAdjacentHTML('beforeend', `${cityName}`);
+      });
     }
-    button.setAttribute('onclick', myFunction(button));
+    if (cities.length > 0 && foundFavCities.length > 0) {
+      insertHTML('dropdown-content', '', 'hr', 'class="dropdown-divider"');
+    }
+    if (cities.length > 0) {
+      cities.forEach((cityName, index) => {
+        insertHTML('dropdown-content', '', 'button', `id=city-${index} class="dropdown-item"`);
 
-    button.addEventListener('click', () => myFunction(button));
-    console.log(button);
-  });
+        insertHTML(`city-${index}`, cityName[0], 'span', 'class="dropdown-city"');
+        insertHTML(`city-${index}`, cityName[1], 'span', 'class="dropdown-region"');
+      });
+    }
+
+  }
 }
 
 function processInputChange() {
-  elementById('search').addEventListener('change', (event) => {
+  /*elementById('search').addEventListener('change', (event) => {
     recieveWeather(event);
     elementById('suggestionDropDown').classList.remove('is-active');
-  });
+  });*/
 }
 
 function processFavoriteClick() {
@@ -199,10 +175,19 @@ function processFavoriteClick() {
 
 function inputAutocomplete() {
   elementById('search').addEventListener('input', (event) => recieveAutocomplete(event)); // Szöveg változás
-  elementById('search').addEventListener('focusin', (event) => recieveAutocomplete(event)); // Ki kattintás változása
-  elementById('search').addEventListener('focusout', () => {
-    elementById('suggestionDropDown').classList.remove('is-active');
-  }); // Ki kattintás változása
+  elementById('search').addEventListener('focusin', (event) => recieveAutocomplete(event)); // Be kattintás változása
+  elementById('search').addEventListener('focusout', (event) => { // Ki kattintás változása
+    setTimeout(function() {
+      if (!document.activeElement.querySelector('button')) {
+        const clickedCity = document.activeElement.firstChild.innerText;
+        event.target.value = clickedCity;
+        recieveWeather(event);
+      } else {
+        elementById('suggestionDropDown').classList.remove('is-active');
+      }
+    }, 0);
+  });
+
 }
 
 function changeFavorite() {
