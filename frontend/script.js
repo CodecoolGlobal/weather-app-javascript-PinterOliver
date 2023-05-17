@@ -9,6 +9,19 @@ const loadEvent = () => {
 
 window.addEventListener('load', loadEvent);
 
+async function recieveAutocomplete(event) {
+  const cityName = event.target.value;
+  if (cityName.length >= 3) {
+    const urlParts = {
+      site: 'http://api.weatherapi.com/v1/search.json',
+      key: WEATHER_API_KEY,
+      q: `${cityName}*`,
+    };
+    const recieved = await getFetchOf(urlParts);
+    displaySuggestions(recieved.map((x) => `${x.name}, ${x.region}`));
+  }
+}
+
 async function recieveWeather(event) {
   // töltődő jel, amíg nem kap adatot
   const cityName = event.target.value;
@@ -107,12 +120,21 @@ function displayCard(city) {
   insertHTML('card', city.current.last_updated, 'div', 'class="date black-text-shadow"');
 }
 
+// recieved array full of suggestion names
+function displaySuggestions (cities) {
+  console.log(cities);
+}
+
 function processInputChange() {
   elementById('search').addEventListener('change', (event) => recieveWeather(event));
 }
 
 function processFavoriteClick() {
   elementById('favorite').addEventListener('click', changeFavorite);
+}
+
+function inputAutocomplete() {
+  elementById('search').addEventListener('input', (event) => recieveAutocomplete(event));
 }
 
 function changeFavorite() {
@@ -134,6 +156,7 @@ function displayInputBar() {
   insertHTML('inputBox', '', 'span', 'id=searchIcon class="icon is-left"');
   insertHTML('searchIcon', '', 'img', 'src=icons/search-line.svg');
   processInputChange();
+  inputAutocomplete();
 }
 
 // Create HTML Elements
