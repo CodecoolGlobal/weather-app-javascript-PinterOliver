@@ -179,12 +179,12 @@ function inputAutocomplete() {
   elementById('search').addEventListener('focusout', (event) => { // Ki kattintás változása
     setTimeout(function() {
       if (!document.activeElement.querySelector('button')) {
-        if (event.target.value !== '') {
+        if (event.target.value.length >= 3) {
           const clickedCity = document.activeElement.firstChild.innerText;
           event.target.value = clickedCity;
           recieveWeather(event);
           elementById('suggestionDropDown').classList.remove('is-active');
-        }
+        } else event.target.value = '';
       } else {
         elementById('suggestionDropDown').classList.remove('is-active');
       }
