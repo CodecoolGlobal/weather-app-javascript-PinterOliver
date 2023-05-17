@@ -49,8 +49,7 @@ body {
 .dropdown-menu {
   width: 100%;
 }
-.dropdown-item {
-}
+
 button.dropdown-item {
   border-radius: 10px;
   padding-right: 1rem;
