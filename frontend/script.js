@@ -14,7 +14,7 @@ async function recieveWeather(event) {
   const cityName = event.target.value;
   const NUMBER_OF_DAYS_TO_FORECAST = 8;
   const urlParts = {
-    site: 'http://api.weatherapi.com/v1/current.json',
+    site: 'http://api.weatherapi.com/v1/forecast.json',
     key: WEATHER_API_KEY,
     q: cityName,
     days: NUMBER_OF_DAYS_TO_FORECAST.toString(),
