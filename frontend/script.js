@@ -5,7 +5,6 @@ const FAVORITES = [];
 const loadEvent = () => {
   // MAIN
   displayInputBar();
-  //displayCard(placeholderBudapest());
 };
 
 window.addEventListener('load', loadEvent);
@@ -31,8 +30,7 @@ async function recieveWeather(event) {
   const foundFavCities = search(FAVORITES, cityName);
   if (foundFavCities.length > 0) {
     cityName = foundFavCities[0];
-  }
-  else if (document.querySelector('.is-active')) {
+  } else if (document.querySelector('.is-active')) {
     cityName = elementById('city-0').firstChild.innerText;
   }
 
@@ -47,7 +45,6 @@ async function recieveWeather(event) {
       aqi: 'no',
       alerts: 'no',
     };
-    //const recieved = await getFetchOf(placeholderLondon());
     const recieved = await getFetchOf(urlPartsWeather);
     const urlPartsImage = {
       site: 'https://api.pexels.com/v1/search',
@@ -63,19 +60,7 @@ async function recieveWeather(event) {
     displayCard(recieved, image);
   }
 }
-/*
-function placeholderLondon() {
-  const urlParts = {
-    site: 'http://api.weatherapi.com/v1/current.json',
-    key: WEATHER_API_KEY,
-    q: 'London',
-    days: '8',
-    aqi: 'no',
-    alerts: 'no',
-  };
-  return urlParts;
-}
-*/
+
 async function getFetchOf(body, headers) {
   let url = body.site;
   let isFirst = true;
@@ -96,26 +81,6 @@ async function getFetchOf(body, headers) {
   }
   const jsonData = await response.json();
   return jsonData;
-}
-
-function placeholderBudapest() {
-  const city = {
-    current: {
-      condition: {
-        icon: '//cdn.weatherapi.com/weather/64x64/day/113.png',
-        text: 'Sunny',
-      },
-      humidity: '25',
-      'last_updated': '2023-05-14 13:00',
-      'temp_c': '18',
-      'wind_dir': 'N',
-      'wind_kph': '15.1',
-    },
-    location: {
-      name: 'Budapest',
-    },
-  };
-  return city;
 }
 
 function search(list, searchElement) {
@@ -157,23 +122,6 @@ function displayCard(city, image) {
 
 // recieved array full of suggestion names
 function displaySuggestions (cities, input) {
-  /*
-  <div id="suggestionDropDown" class="dropdown is-active">
-    <div class="dropdown-menu" id="dropdown-menu">
-      <div class="dropdown-content">
-        <button href="#" class="dropdown-item favorite-dropdown-item">
-          <img class="favorite-dropdown-icon" src="icons/heart-2-fill-black.svg">
-          London
-        </button>
-        <hr class="dropdown-divider">
-        <button class="dropdown-item">New Orleans				</button>
-        <button class="dropdown-item">New York					</button>
-        <button href="#" class="dropdown-item">New ...	</button>
-        <button href="#" class="dropdown-item">New ...	</button>
-      </div>
-    </div>
-  </div>
-  */
 
   const foundFavCities = search(FAVORITES, input);
   cities.forEach((city) => {
@@ -190,9 +138,6 @@ function displaySuggestions (cities, input) {
     insertHTML('suggestionDropDown', '', 'div', 'id="dropdown-menu" class="dropdown-menu"');
     insertHTML('dropdown-menu', '', 'div', 'id="dropdown-content" class="dropdown-content"');
 
-    console.log(`Favorites: ${  FAVORITES}`);
-    console.log(`Found Cities: ${  foundFavCities}`);
-
     if (foundFavCities.length > 0) {
       foundFavCities.forEach((cityName, index) => {
         insertHTML('dropdown-content', '', 'button',
@@ -207,10 +152,10 @@ function displaySuggestions (cities, input) {
     }
     if (cities.length > 0) {
       cities.forEach((cityName, index) => {
-          insertHTML('dropdown-content', '', 'button', `id=city-${index} class="dropdown-item"`);
-          insertHTML(`city-${index}`, cityName[0], 'span', 'class="dropdown-city"');
-          insertHTML(`city-${index}`, cityName[1], 'span', 'class="dropdown-region"');
-        
+        insertHTML('dropdown-content', '', 'button', `id=city-${index} class="dropdown-item"`);
+        insertHTML(`city-${index}`, cityName[0], 'span', 'class="dropdown-city"');
+        insertHTML(`city-${index}`, cityName[1], 'span', 'class="dropdown-region"');
+
       });
     }
 
@@ -230,7 +175,7 @@ function processFavoriteClick() {
 
 function inputAutocomplete() {
   elementById('search').addEventListener('input', (event) => recieveAutocomplete(event)); // Szöveg változás
-  //elementById('search').addEventListener('focusin', (event) => recieveAutocomplete(event)); // Ki kattintás változása
+  elementById('search').addEventListener('focusin', (event) => recieveAutocomplete(event)); // Ki kattintás változása
   elementById('search').addEventListener('focusout', () => {
     elementById('suggestionDropDown').classList.remove('is-active');
   }); // Ki kattintás változása
@@ -250,8 +195,8 @@ function changeFavorite() {
 function displayInputBar() {
   insertHTML('root', '', 'div', 'id=navPanel');
   insertHTML('navPanel', '', 'div', 'id=inputBox class="control has-icons-left"');
-  insertHTML('inputBox', '', 'input',
-    'list="options" id="search" placeholder="Type in a city\'s name" class="input is-medium is-rounded"');
+  insertHTML('inputBox', '', 'input', 'list="options" id="search"' +
+  'placeholder="Type in a city\'s name" class="input is-medium is-rounded"');
   insertHTML('inputBox', '', 'span', 'id=searchIcon class="icon is-left"');
   insertHTML('searchIcon', '', 'img', 'src=icons/search-line.svg');
   processInputChange();
