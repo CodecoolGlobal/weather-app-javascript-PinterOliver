@@ -56,7 +56,10 @@ async function recieveWeather(event) {
       Authorization: IMAGE_API_KEY,
     };
     const recievedImages = await getFetchOf(urlPartsImage, headers);
-    const image = recievedImages.photos[0].src.landscape;
+    let image = 'images/default-city.jpg';
+    if (typeof recievedImages.photos[0] !== 'undefined') {
+      image = recievedImages.photos[0].src.landscape;
+    }
     displayCard(recieved, image);
   }
 }
