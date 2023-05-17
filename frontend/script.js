@@ -170,20 +170,15 @@ function createCitySuggestions(cities, foundFavCities) {
   makeTheButtonsClickable();
 }
 
-function makeTheButtonsClickable() {
-  console.log([...document.querySelectorAll('#dropdown-content button')]);
-  [...document.querySelectorAll('#dropdown-content button')].forEach((button) => {
-    function myFunction(myButton) {
-      console.log('asd');
-      elementById('search').value = processWeater(myButton.firstChild.innerText);
-      console.log(elementById('search').value);
-      processWeater(myButton.firstChild.innerText);
-    }
-    button.setAttribute('onclick', myFunction(button));
+function myFunction(event) {
+  console.log('asd');
+  elementById('search').value = processWeater(event.target.innerText);
+  console.log(elementById('search').value);
+  processWeater(event.target.firstChild.innerText);
+}
 
-    button.addEventListener('click', () => myFunction(button));
-    console.log(button);
-  });
+function makeTheButtonsClickable() {
+  elementById('dropdown-content').addEventListener('click', (event) => myFunction(event));
 }
 
 function processInputChange() {
