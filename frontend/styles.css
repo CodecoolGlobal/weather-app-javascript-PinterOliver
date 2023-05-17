@@ -35,6 +35,27 @@ body {
   height: 20vh;
 }
 
+#inputBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#suggestionDropDown {
+  
+  width: 40vw;
+}
+.dropdown-menu {
+  width: 100%;
+}
+.dropdown-item {
+  border-radius: 10px;
+}
+#dropdown-content {
+  border-radius: 20px;
+}
+
 #container {
   display: flex;
   justify-content: center;

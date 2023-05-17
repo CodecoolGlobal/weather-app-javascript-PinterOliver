@@ -1,5 +1,5 @@
 const WEATHER_API_KEY = '664e3a10f526495492f112135231505';
-const favorites = [];
+const FAVORITES = [];
 
 const loadEvent = () => {
   // MAIN
@@ -18,7 +18,7 @@ async function recieveAutocomplete(event) {
       q: `${cityName}*`,
     };
     const recieved = await getFetchOf(urlParts);
-    displaySuggestions(recieved.map((x) => `${x.name}, ${x.region}`));
+    displaySuggestions(recieved.map((x) => `${x.name}, ${x.region}`), cityName);
   }
 }
 
@@ -120,7 +120,7 @@ function displayCard(city) {
   insertHTML('card', '', 'div', 'id=bottommain');
   insertHTML('bottommain', city.location.name, 'div', 'id=cityname class=cityname');
   insertHTML('card', '', 'div', 'id=favorite class=favorite title="Add to favorites"');
-  if (favorites.includes(city.location.name)) {
+  if (FAVORITES.includes(city.location.name)) {
     elementById('favorite').classList.add('activefavorite');
   }
   processFavoriteClick();
@@ -128,19 +128,16 @@ function displayCard(city) {
 }
 
 // recieved array full of suggestion names
-function displaySuggestions (cities) {
+function displaySuggestions (cities, input) {
   /*
   <div id="suggestionDropDown" class="dropdown is-active">
     <div class="dropdown-menu" id="dropdown-menu">
       <div class="dropdown-content">
-
         <button href="#" class="dropdown-item favorite-dropdown-item">
           <img class="favorite-dropdown-icon" src="icons/heart-2-fill-black.svg">
           London
         </button>
-
         <hr class="dropdown-divider">
-
         <button class="dropdown-item">New Orleans				</button>
         <button class="dropdown-item">New York					</button>
         <button href="#" class="dropdown-item">New ...	</button>
@@ -149,11 +146,45 @@ function displaySuggestions (cities) {
     </div>
   </div>
   */
-  insertHTML('root', '', 'div', 'id="suggestionDropDown" class="dropdown is-active"');
-  insertHTML('suggestionDropDown', '', 'div', 'id="dropdown-menu" class="dropdown-menu"');
-  insertHTML('dropdown-menu', '', 'div', 'id="dropdown-content" class="dropdown-content"');
 
+  const foundFavCities = search(FAVORITES, input);
+  if (cities.length > 0 || foundFavCities.length > 0){
+    if (elementById('suggestionDropDown')) {
+      elementById('suggestionDropDown').remove();
+    }
+    insertHTML('inputBox', '', 'div', 'id="suggestionDropDown" class="dropdown is-active"');
+    insertHTML('suggestionDropDown', '', 'div', 'id="dropdown-menu" class="dropdown-menu"');
+    insertHTML('dropdown-menu', '', 'div', 'id="dropdown-content" class="dropdown-content"');
 
+    insertHTML('dropdown-content', '', 'button',
+      'id="favCity-1" class="dropdown-item favorite-dropdown-item"');
+    insertHTML('favCity-1', '', 'img',
+      'class="favorite-dropdown-icon" src="icons/heart-2-fill-black.svg"');
+    elementById('favCity-1').insertAdjacentHTML('beforeend', 'London');
+
+    insertHTML('dropdown-content', '', 'hr', 'class="dropdown-divider"');
+
+    insertHTML('dropdown-content', '', 'button', 'id="city-1" class="dropdown-item"');
+    elementById('city-1').insertAdjacentHTML('beforeend', 'York');
+
+    insertHTML('dropdown-content', '', 'button', 'id="city-2" class="dropdown-item"');
+    elementById('city-2').insertAdjacentHTML('beforeend', 'York');
+
+    insertHTML('dropdown-content', '', 'button', 'id="city-3" class="dropdown-item"');
+    elementById('city-3').insertAdjacentHTML('beforeend', 'York');
+
+    /*
+    if (foundFavCities.length > 0) {
+      foundFavCities.forEach((cityName, index) => {
+        insertHTML('dropdown-content', '', 'button',
+          `id="favCity-${index}" class="dropdown-item favorite-dropdown-item"`);
+        insertHTML(`favCity-${index}`, '', 'img',
+          'class="favorite-dropdown-icon" src="icons/heart-2-fill-black.svg"');
+      });
+    }
+    */
+
+  } else console.log('baj van');
 
 }
 
@@ -173,9 +204,9 @@ function inputAutocomplete() {
 function changeFavorite() {
   elementById('favorite').classList.toggle('activefavorite');
   const cityName = elementById('cityname').innerHTML;
-  const index = favorites.indexOf(cityName);
-  if (index > -1) favorites.splice(index, 1);
-  else favorites.push(cityName);
+  const index = FAVORITES.indexOf(cityName);
+  if (index > -1) FAVORITES.splice(index, 1);
+  else FAVORITES.push(cityName);
 }
 
 /**
@@ -185,7 +216,7 @@ function displayInputBar() {
   insertHTML('root', '', 'div', 'id=navPanel');
   insertHTML('navPanel', '', 'div', 'id=inputBox class="control has-icons-left"');
   insertHTML('inputBox', '', 'input',
-    'id=search placeholder="Type in a city\'s name" class="input is-medium is-rounded"');
+    'list="options" id="search" placeholder="Type in a city\'s name" class="input is-medium is-rounded"');
   insertHTML('inputBox', '', 'span', 'id=searchIcon class="icon is-left"');
   insertHTML('searchIcon', '', 'img', 'src=icons/search-line.svg');
   processInputChange();
