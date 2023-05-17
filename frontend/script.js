@@ -24,7 +24,7 @@ async function recieveAutocomplete(event) {
   }
 }
 
-async function recieveWeather(event) {
+function recieveWeather(event) {
   // töltődő jel, amíg nem kap adatot
   let cityName = event.target.value;
   const foundFavCities = search(FAVORITES, cityName);
@@ -33,7 +33,10 @@ async function recieveWeather(event) {
   } else if (document.querySelector('.is-active')) {
     cityName = elementById('city-0').firstChild.innerText;
   }
+  processWeater(cityName);
+}
 
+async function processWeater(cityName) {
   if (cityName.length >= 3) {
     const NUMBER_OF_DAYS_TO_FORECAST = 8;
     const NUMBER_OF_PICTURES = 1;
@@ -138,28 +141,49 @@ function displaySuggestions (cities, input) {
     insertHTML('suggestionDropDown', '', 'div', 'id="dropdown-menu" class="dropdown-menu"');
     insertHTML('dropdown-menu', '', 'div', 'id="dropdown-content" class="dropdown-content"');
 
-    if (foundFavCities.length > 0) {
-      foundFavCities.forEach((cityName, index) => {
-        insertHTML('dropdown-content', '', 'button',
-          `id="favCity-${index}" class="dropdown-item favorite-dropdown-item"`);
-        insertHTML(`favCity-${index}`, '', 'img',
-          'class="favorite-dropdown-icon" src="icons/heart-2-fill-black.svg"');
-        elementById(`favCity-${index}`).insertAdjacentHTML('beforeend', `${cityName}`);
-      });
-    }
-    if (cities.length > 0 && foundFavCities.length > 0) {
-      insertHTML('dropdown-content', '', 'hr', 'class="dropdown-divider"');
-    }
-    if (cities.length > 0) {
-      cities.forEach((cityName, index) => {
-        insertHTML('dropdown-content', '', 'button', `id=city-${index} class="dropdown-item"`);
-        insertHTML(`city-${index}`, cityName[0], 'span', 'class="dropdown-city"');
-        insertHTML(`city-${index}`, cityName[1], 'span', 'class="dropdown-region"');
-
-      });
-    }
+    createCitySuggestions(cities, foundFavCities);
 
   }
+}
+
+function createCitySuggestions(cities, foundFavCities) {
+  if (foundFavCities.length > 0) {
+    foundFavCities.forEach((cityName, index) => {
+      insertHTML('dropdown-content', '', 'button',
+        `id="favCity-${index}" class="dropdown-item favorite-dropdown-item"`);
+      insertHTML(`favCity-${index}`, '', 'img',
+        'class="favorite-dropdown-icon" src="icons/heart-2-fill-black.svg"');
+      elementById(`favCity-${index}`).insertAdjacentHTML('beforeend', `${cityName}`);
+    });
+  }
+  if (cities.length > 0 && foundFavCities.length > 0) {
+    insertHTML('dropdown-content', '', 'hr', 'class="dropdown-divider"');
+  }
+  if (cities.length > 0) {
+    cities.forEach((cityName, index) => {
+      insertHTML('dropdown-content', '', 'button', `id=city-${index} class="dropdown-item"`);
+      insertHTML(`city-${index}`, cityName[0], 'span', 'class="dropdown-city"');
+      insertHTML(`city-${index}`, cityName[1], 'span', 'class="dropdown-region"');
+
+    });
+  }
+  makeTheButtonsClickable();
+}
+
+function makeTheButtonsClickable() {
+  console.log([...document.querySelectorAll('#dropdown-content button')]);
+  [...document.querySelectorAll('#dropdown-content button')].forEach((button) => {
+    function myFunction(myButton) {
+      console.log('asd');
+      elementById('search').value = processWeater(myButton.firstChild.innerText);
+      console.log(elementById('search').value);
+      processWeater(myButton.firstChild.innerText);
+    }
+    button.setAttribute('onclick', myFunction(button));
+
+    button.addEventListener('click', () => myFunction(button));
+    console.log(button);
+  });
 }
 
 function processInputChange() {
