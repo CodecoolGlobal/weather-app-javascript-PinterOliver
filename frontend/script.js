@@ -25,18 +25,21 @@ async function recieveAutocomplete(event) {
 async function recieveWeather(event) {
   // töltődő jel, amíg nem kap adatot
   const cityName = event.target.value;
-  const NUMBER_OF_DAYS_TO_FORECAST = 8;
-  const urlParts = {
-    site: 'http://api.weatherapi.com/v1/forecast.json',
-    key: WEATHER_API_KEY,
-    q: cityName,
-    days: NUMBER_OF_DAYS_TO_FORECAST.toString(),
-    aqi: 'no',
-    alerts: 'no',
-  };
-  //const recieved = await getFetchOf(placeholderLondon());
-  const recieved = await getFetchOf(urlParts);
-  displayCard(recieved);
+  if (cityName.length >= 3) {
+    const NUMBER_OF_DAYS_TO_FORECAST = 8;
+    const urlParts = {
+      site: 'http://api.weatherapi.com/v1/forecast.json',
+      key: WEATHER_API_KEY,
+      q: cityName,
+      days: NUMBER_OF_DAYS_TO_FORECAST.toString(),
+      aqi: 'no',
+      alerts: 'no',
+    };
+    //const recieved = await getFetchOf(placeholderLondon());
+    const recieved = await getFetchOf(urlParts);
+    console.log(recieved);
+    displayCard(recieved);
+  }
 }
 /*
 function placeholderLondon() {
@@ -122,7 +125,32 @@ function displayCard(city) {
 
 // recieved array full of suggestion names
 function displaySuggestions (cities) {
-  console.log(cities);
+  /*
+  <div id="suggestionDropDown" class="dropdown is-active">
+    <div class="dropdown-menu" id="dropdown-menu">
+      <div class="dropdown-content">
+
+        <button href="#" class="dropdown-item favorite-dropdown-item">
+          <img class="favorite-dropdown-icon" src="icons/heart-2-fill-black.svg">
+          London
+        </button>
+
+        <hr class="dropdown-divider">
+
+        <button class="dropdown-item">New Orleans				</button>
+        <button class="dropdown-item">New York					</button>
+        <button href="#" class="dropdown-item">New ...	</button>
+        <button href="#" class="dropdown-item">New ...	</button>
+      </div>
+    </div>
+  </div>
+  */
+  insertHTML('root', '', 'div', 'id="suggestionDropDown" class="dropdown is-active"');
+  insertHTML('suggestionDropDown', '', 'div', 'id="dropdown-menu" class="dropdown-menu"');
+  insertHTML('dropdown-menu', '', 'div', 'id="dropdown-content" class="dropdown-content"');
+
+
+
 }
 
 function processInputChange() {
@@ -135,6 +163,7 @@ function processFavoriteClick() {
 
 function inputAutocomplete() {
   elementById('search').addEventListener('input', (event) => recieveAutocomplete(event));
+  elementById('search').addEventListener('focus', (event) => recieveAutocomplete(event));
 }
 
 function changeFavorite() {
