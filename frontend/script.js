@@ -1,10 +1,11 @@
 const WEATHER_API_KEY = '664e3a10f526495492f112135231505';
+const IMAGE_API_KEY = '93pgBPYkOqOAqUyuhTDX7I2NutiObGjRo02Ksv3eqIWuuwcU1CDPSSgo';
 const favorites = [];
 
 const loadEvent = () => {
   // MAIN
   displayInputBar();
-  displayCard(placeholderBudapest());
+  //displayCard(placeholderBudapest());
 };
 
 window.addEventListener('load', loadEvent);
@@ -26,7 +27,8 @@ async function recieveWeather(event) {
   // töltődő jel, amíg nem kap adatot
   const cityName = event.target.value;
   const NUMBER_OF_DAYS_TO_FORECAST = 8;
-  const urlParts = {
+  const NUMBER_OF_PICTURES = 1;
+  const urlPartsWeather = {
     site: 'http://api.weatherapi.com/v1/forecast.json',
     key: WEATHER_API_KEY,
     q: cityName,
@@ -35,8 +37,19 @@ async function recieveWeather(event) {
     alerts: 'no',
   };
   //const recieved = await getFetchOf(placeholderLondon());
-  const recieved = await getFetchOf(urlParts);
-  displayCard(recieved);
+  const recieved = await getFetchOf(urlPartsWeather);
+  const urlPartsImage = {
+    site: 'https://api.pexels.com/v1/search',
+    query: cityName,
+    orientation: 'landscape',
+    'per_page': NUMBER_OF_PICTURES.toString(),
+  };
+  const headers = {
+    Authorization: IMAGE_API_KEY,
+  };
+  const recievedImages = await getFetchOf(urlPartsImage, headers);
+  const image = recievedImages.photos[0].src.landscape;
+  displayCard(recieved, image);
 }
 /*
 function placeholderLondon() {
@@ -51,19 +64,24 @@ function placeholderLondon() {
   return urlParts;
 }
 */
-async function getFetchOf(object) {
-  let url = object.site;
+async function getFetchOf(body, headers) {
+  let url = body.site;
   let isFirst = true;
-  for (const key in object) {
+  for (const key in body) {
     if (key !== 'site') {
       if (isFirst) {
         url += '?';
         isFirst = !isFirst;
       } else url += '&';
-      url += `${key}=${object[key]}`;
+      url += `${key}=${body[key]}`;
     }
   }
-  const response = await fetch(url);
+  let response;
+  if (headers) {
+    response = await fetch(url, {headers: headers});
+  } else {
+    response = await fetch(url);
+  }
   const jsonData = await response.json();
   return jsonData;
 }
@@ -94,10 +112,11 @@ function search(list, searchElement) {
 
 // DOM Manipulations
 
-function displayCard(city) {
+function displayCard(city, image) {
   if (elementById('container')) elementById('container').remove();
   insertHTML('root', '', 'div', 'id=container');
   insertHTML('container', '', 'div', 'id=card');
+  elementById('card').style['background-image'] = `url(${image})`;
   insertHTML('card', '', 'div', 'id=sidepanel');
   insertHTML('sidepanel', '', 'div', 'id=topdetails');
   insertHTML('topdetails', `${city.current.temp_c} °C`, 'div', 'class="temperature gray-text-shadow"');
