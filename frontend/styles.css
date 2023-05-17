@@ -69,12 +69,16 @@ body {
   font-size: 3.2vh;
 }
 
-.temperature, .sky, .details {
+.temperature, .sky, .details, .favorite-dropdown-item {
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   width: 100%;
+}
+
+.favorite-dropdown-item {
+  justify-content: left;
 }
 
 .temperature, .sky {
@@ -111,6 +115,11 @@ hr {
   height: 3.3vh;
   width: 3.3vh;
   margin-right: 1.4vh;
+}
+
+.favorite-dropdown-icon {
+  margin-right: 1vh;
+  width: .875rem;
 }
 
 #bottomdetails, #topdetails {
