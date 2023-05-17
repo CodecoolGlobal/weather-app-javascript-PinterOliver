@@ -182,6 +182,7 @@ function inputAutocomplete() {
         const clickedCity = document.activeElement.firstChild.innerText;
         event.target.value = clickedCity;
         recieveWeather(event);
+        elementById('suggestionDropDown').classList.remove('is-active');
       } else {
         elementById('suggestionDropDown').classList.remove('is-active');
       }
