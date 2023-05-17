@@ -13,28 +13,12 @@ const loadEvent = () => {
 
 window.addEventListener('load', loadEvent);
 
-/*function makeTheButtonsClickable() {
-  elementById('dropdown-content').addEventListener('click', (event) => {
-    processClickOnSuggested(event);
-  });
-}
-
-function processClickOnSuggested(event) {
-  console.log(event.target.firstChild.innerText);
-  elementById('search').value = event.target.firstChild.innerText;
-  console.log(elementById('search').value);
-  processWeather(event.target.firstChild.innerText);
-
-  const e = new Event("change");
-const element = document.querySelector('#test')
-element.dispatchEvent(e);
-}*/
-
 function processInputChange() {
   elementById('search').addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
       recieveWeather(event);
       elementById('suggestionDropDown').classList.remove('is-active');
+      elementById('addition').innerText = '';
     }
   });
   elementById('search').addEventListener('focusout', (event) => processClickOnSuggested(event));  // Ki kattintás változása
@@ -48,15 +32,16 @@ function processAutocomplete() {
 function processClickOnSuggested(event) {
   {
     setTimeout(function() {
-      if (!document.activeElement.querySelector('button')) {
-        console.log('activeElement.child ', document.activeElement.lastChild);
+      if (document.activeElement.classList.contains('clickable')) {
         const clickedCity = document.activeElement.lastChild.innerText;
         event.target.value = clickedCity;
         processWeather(clickedCity);
       } else {
         recieveWeather(event);
       }
-      elementById('suggestionDropDown').classList.remove('is-active');
+      const dropElement = elementById('suggestionDropDown');
+      if (dropElement) dropElement.classList.remove('is-active');
+      elementById('addition').innerText = '';
     }, 0);
   }
 }
@@ -202,6 +187,7 @@ function displayCard(city, image) {
 function displaySuggestions (cities, input) {
   const recievedCities = processCityLists(cities, input);
   cities = recievedCities[0];
+  console.log(cities);
   const foundFavCities = recievedCities[1];
   if (elementById('suggestionDropDown')) elementById('suggestionDropDown').remove();
   if ((cities.length > 0 || foundFavCities.length > 0) && document.activeElement.id === 'search'){
@@ -211,20 +197,21 @@ function displaySuggestions (cities, input) {
     if (foundFavCities.length > 0) {
       foundFavCities.forEach((cityName, index) => {
         insertHTML('dropdown-content', '', 'button',
-          `id="favCity-${index}" class="dropdown-item favorite-dropdown-item"`);
+          `id="favCity-${index}" class="dropdown-item favorite-dropdown-item clickable"`);
         insertHTML(`favCity-${index}`, '', 'img',
-          'class="favorite-dropdown-icon" src="icons/heart-2-fill-black.svg"');
-        insertHTML(`favCity-${index}`, cityName, 'span', '');
+          'class="favorite-dropdown-icon clickable" src="icons/heart-2-fill-black.svg"');
+        insertHTML(`favCity-${index}`, cityName, 'span', 'class=clickable');
       });
-    }
+      elementById('addition').innerText = foundFavCities[0];
+    } else elementById('addition').innerText = cities[0][0];
     if (cities.length > 0 && foundFavCities.length > 0) {
       insertHTML('dropdown-content', '', 'hr', 'class="dropdown-divider"');
     }
     if (cities.length > 0) {
       cities.forEach((cityName, index) => {
-        insertHTML('dropdown-content', '', 'button', `id=city-${index} class="dropdown-item"`);
-        insertHTML(`city-${index}`, cityName[1], 'span', 'class="dropdown-region"');
-        insertHTML(`city-${index}`, cityName[0], 'span', 'class="dropdown-city"');
+        insertHTML('dropdown-content', '', 'button', `id=city-${index} class="dropdown-item clickable"`);
+        insertHTML(`city-${index}`, cityName[1], 'span', 'class="dropdown-region clickable"');
+        insertHTML(`city-${index}`, cityName[0], 'span', 'class="dropdown-city clickable"');
       });
     }
   }
@@ -232,6 +219,12 @@ function displaySuggestions (cities, input) {
 
 function processCityLists(cities, input) {
   const foundFavCities = search(FAVORITES, input);
+  if (elementById('cityname')) {
+    const currentCity = search([elementById('cityname').innerText], input)[0];
+    console.log(currentCity);
+    if (currentCity && !cities.includes(currentCity)) cities.push(currentCity);
+    console.log(cities);
+  }
   cities.forEach((city) => {
     if (FAVORITES.includes(city[0]) && !foundFavCities.includes(city[0])) {
       foundFavCities.push(city[0]);
@@ -247,9 +240,11 @@ function processCityLists(cities, input) {
 function displayInputBar() {
   insertHTML('root', '', 'div', 'id=navPanel');
   insertHTML('navPanel', '', 'div', 'id=inputBox class="control has-icons-left"');
-  insertHTML('inputBox', '', 'input', 'list="options" id="search"' +
-  'placeholder="Type in a city\'s name" class="input is-medium is-rounded"');
-  insertHTML('inputBox', '', 'span', 'id=searchIcon class="icon is-left"');
+  insertHTML('inputBox', '', 'div', 'id=box');
+  insertHTML('box', '', 'input', 'list="options" id="search" placeholder=' +
+  '"Type in a city\'s name" autocomplete=off type=text class="input is-medium is-rounded"');
+  insertHTML('box', '', 'span', 'id=addition class="addition is-medium" is-right');
+  insertHTML('box', '', 'span', 'id=searchIcon class="icon is-left"');
   insertHTML('searchIcon', '', 'img', 'src=icons/search-line.svg');
   processInputChange();
   processAutocomplete();

@@ -63,6 +63,25 @@ button.dropdown-item {
   color: black;
   font-weight: 500;
 }
+
+.addition {
+  color: rgb(185, 185, 185);
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 20px;
+  text-align: right;
+  position: absolute;
+  left: 60%;
+  float: right;
+}
+
+#box {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .dropdown-region {
   color: rgb(185, 185, 185);
   float: right;
