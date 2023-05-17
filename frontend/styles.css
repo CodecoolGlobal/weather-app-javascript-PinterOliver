@@ -60,7 +60,7 @@ button.dropdown-item {
   border-radius: 20px;
 }
 
-.dropdown-city {
+.dropdown-city, .favorite-dropdown-item {
   color: black;
   font-weight: 500;
 }

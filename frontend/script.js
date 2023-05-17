@@ -27,7 +27,15 @@ async function recieveAutocomplete(event) {
 
 async function recieveWeather(event) {
   // töltődő jel, amíg nem kap adatot
-  const cityName = event.target.value;
+  let cityName = event.target.value;
+  const foundFavCities = search(FAVORITES, cityName);
+  if (foundFavCities.length > 0) {
+    cityName = foundFavCities[0];
+  }
+  else if (document.querySelector('.is-active')) {
+    cityName = elementById('city-0').firstChild.innerText;
+  }
+
   if (cityName.length >= 3) {
     const NUMBER_OF_DAYS_TO_FORECAST = 8;
     const NUMBER_OF_PICTURES = 1;
@@ -111,7 +119,7 @@ function placeholderBudapest() {
 }
 
 function search(list, searchElement) {
-  return list.filter((element) => element.includes(searchElement));
+  return list.filter((element) => new RegExp(`(^| )${searchElement}`, 'i').test(element));
 }
 
 // DOM Manipulations
@@ -168,6 +176,13 @@ function displaySuggestions (cities, input) {
   */
 
   const foundFavCities = search(FAVORITES, input);
+  cities.forEach((city) => {
+    if (FAVORITES.includes(city[0])) foundFavCities.push(city[0]);
+  });
+  cities = cities.filter((city) => !foundFavCities.includes(city[0]));
+
+  console.log(`Input:${  input}`);
+
   if (elementById('suggestionDropDown')) elementById('suggestionDropDown').remove();
   if ((cities.length > 0 || foundFavCities.length > 0) && document.activeElement.id === 'search'){
 
@@ -175,8 +190,10 @@ function displaySuggestions (cities, input) {
     insertHTML('suggestionDropDown', '', 'div', 'id="dropdown-menu" class="dropdown-menu"');
     insertHTML('dropdown-menu', '', 'div', 'id="dropdown-content" class="dropdown-content"');
 
+    console.log(`Favorites: ${  FAVORITES}`);
+    console.log(`Found Cities: ${  foundFavCities}`);
+
     if (foundFavCities.length > 0) {
-      console.log(foundFavCities);
       foundFavCities.forEach((cityName, index) => {
         insertHTML('dropdown-content', '', 'button',
           `id="favCity-${index}" class="dropdown-item favorite-dropdown-item"`);
@@ -190,11 +207,10 @@ function displaySuggestions (cities, input) {
     }
     if (cities.length > 0) {
       cities.forEach((cityName, index) => {
-        if (!FAVORITES.includes(cityName[0])) {
           insertHTML('dropdown-content', '', 'button', `id=city-${index} class="dropdown-item"`);
           insertHTML(`city-${index}`, cityName[0], 'span', 'class="dropdown-city"');
           insertHTML(`city-${index}`, cityName[1], 'span', 'class="dropdown-region"');
-        }
+        
       });
     }
 
@@ -214,7 +230,10 @@ function processFavoriteClick() {
 
 function inputAutocomplete() {
   elementById('search').addEventListener('input', (event) => recieveAutocomplete(event)); // Szöveg változás
-  elementById('search').addEventListener('focusout', (event) => recieveAutocomplete(event)); // Ki kattintás változása
+  //elementById('search').addEventListener('focusin', (event) => recieveAutocomplete(event)); // Ki kattintás változása
+  elementById('search').addEventListener('focusout', () => {
+    elementById('suggestionDropDown').classList.remove('is-active');
+  }); // Ki kattintás változása
 }
 
 function changeFavorite() {
