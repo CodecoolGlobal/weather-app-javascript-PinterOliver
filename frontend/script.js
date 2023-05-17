@@ -19,7 +19,9 @@ async function recieveAutocomplete(event) {
       q: `${cityName}*`,
     };
     const recieved = await getFetchOf(urlParts);
-    displaySuggestions(recieved.map((x) => `${x.name}, ${x.region}`), cityName);
+    displaySuggestions(recieved.map((x) => [x.name, x.region]), cityName);
+  } else {
+    displaySuggestions([], cityName);
   }
 }
 
@@ -109,7 +111,7 @@ function placeholderBudapest() {
 }
 
 function search(list, searchElement) {
-  return list.filter((element) => element.contains(searchElement));
+  return list.filter((element) => element.includes(searchElement));
 }
 
 // DOM Manipulations
@@ -166,48 +168,44 @@ function displaySuggestions (cities, input) {
   */
 
   const foundFavCities = search(FAVORITES, input);
-  if (cities.length > 0 || foundFavCities.length > 0){
-    if (elementById('suggestionDropDown')) {
-      elementById('suggestionDropDown').remove();
-    }
+  if (elementById('suggestionDropDown')) elementById('suggestionDropDown').remove();
+  if ((cities.length > 0 || foundFavCities.length > 0) && document.activeElement.id === 'search'){
+
     insertHTML('inputBox', '', 'div', 'id="suggestionDropDown" class="dropdown is-active"');
     insertHTML('suggestionDropDown', '', 'div', 'id="dropdown-menu" class="dropdown-menu"');
     insertHTML('dropdown-menu', '', 'div', 'id="dropdown-content" class="dropdown-content"');
 
-    insertHTML('dropdown-content', '', 'button',
-      'id="favCity-1" class="dropdown-item favorite-dropdown-item"');
-    insertHTML('favCity-1', '', 'img',
-      'class="favorite-dropdown-icon" src="icons/heart-2-fill-black.svg"');
-    elementById('favCity-1').insertAdjacentHTML('beforeend', 'London');
-
-    insertHTML('dropdown-content', '', 'hr', 'class="dropdown-divider"');
-
-    insertHTML('dropdown-content', '', 'button', 'id="city-1" class="dropdown-item"');
-    elementById('city-1').insertAdjacentHTML('beforeend', 'York');
-
-    insertHTML('dropdown-content', '', 'button', 'id="city-2" class="dropdown-item"');
-    elementById('city-2').insertAdjacentHTML('beforeend', 'York');
-
-    insertHTML('dropdown-content', '', 'button', 'id="city-3" class="dropdown-item"');
-    elementById('city-3').insertAdjacentHTML('beforeend', 'York');
-
-    /*
     if (foundFavCities.length > 0) {
+      console.log(foundFavCities);
       foundFavCities.forEach((cityName, index) => {
         insertHTML('dropdown-content', '', 'button',
           `id="favCity-${index}" class="dropdown-item favorite-dropdown-item"`);
         insertHTML(`favCity-${index}`, '', 'img',
           'class="favorite-dropdown-icon" src="icons/heart-2-fill-black.svg"');
+        elementById(`favCity-${index}`).insertAdjacentHTML('beforeend', `${cityName}`);
       });
     }
-    */
+    if (cities.length > 0 && foundFavCities.length > 0) {
+      insertHTML('dropdown-content', '', 'hr', 'class="dropdown-divider"');
+    }
+    if (cities.length > 0) {
+      cities.forEach((cityName, index) => {
+        if (!FAVORITES.includes(cityName[0])) {
+          insertHTML('dropdown-content', '', 'button', `id=city-${index} class="dropdown-item"`);
+          insertHTML(`city-${index}`, cityName[0], 'span', 'class="dropdown-city"');
+          insertHTML(`city-${index}`, cityName[1], 'span', 'class="dropdown-region"');
+        }
+      });
+    }
 
-  } else console.log('baj van');
-
+  }
 }
 
 function processInputChange() {
-  elementById('search').addEventListener('change', (event) => recieveWeather(event));
+  elementById('search').addEventListener('change', (event) => {
+    recieveWeather(event);
+    elementById('suggestionDropDown').classList.remove('is-active');
+  });
 }
 
 function processFavoriteClick() {
@@ -215,8 +213,8 @@ function processFavoriteClick() {
 }
 
 function inputAutocomplete() {
-  elementById('search').addEventListener('input', (event) => recieveAutocomplete(event));
-  elementById('search').addEventListener('focus', (event) => recieveAutocomplete(event));
+  elementById('search').addEventListener('input', (event) => recieveAutocomplete(event)); // Szöveg változás
+  elementById('search').addEventListener('focusout', (event) => recieveAutocomplete(event)); // Ki kattintás változása
 }
 
 function changeFavorite() {

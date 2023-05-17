@@ -50,10 +50,24 @@ body {
   width: 100%;
 }
 .dropdown-item {
-  border-radius: 10px;
 }
+button.dropdown-item {
+  border-radius: 10px;
+  padding-right: 1rem;
+}
+
 #dropdown-content {
   border-radius: 20px;
+}
+
+.dropdown-city {
+  color: black;
+  font-weight: 500;
+}
+.dropdown-region {
+  color: rgb(185, 185, 185);
+  float: right;
+  text-align: right;
 }
 
 #container {
