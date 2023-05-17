@@ -88,6 +88,10 @@ function placeholderBudapest() {
   return city;
 }
 
+function search(list, searchElement) {
+  return list.filter((element) => element.contains(searchElement));
+}
+
 // DOM Manipulations
 
 function displayCard(city) {
