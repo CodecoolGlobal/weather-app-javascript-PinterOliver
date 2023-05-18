@@ -155,9 +155,10 @@ function changeFavorite() {
   const index = FAVORITES.indexOf(cityName);
   if (index > -1) {
     FAVORITES.splice(index, 1);
-  }
-  else {
+    elementById('favorite').title = 'Add to favorites';
+  } else {
     FAVORITES.push(cityName);
+    elementById('favorite').title = 'Remove from favorites';
   }
 }
 
