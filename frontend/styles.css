@@ -274,6 +274,15 @@ hr {
   background-image: url(icons/heart-2-fill.svg);
 }
 
+.loading-icon-card {
+  height: 100%;
+  width: 500px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 #search {
   width: 40vw;
 }
