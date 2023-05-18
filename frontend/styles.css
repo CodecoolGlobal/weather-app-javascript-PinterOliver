@@ -65,14 +65,21 @@ button.dropdown-item {
 }
 
 .addition {
-  color: rgb(185, 185, 185);
   font-family: 'Instrument Sans', sans-serif;
   font-size: 20px;
-  text-align: right;
-  position: absolute;
-  left: 60%;
-  float: right;
+  padding-left: 3.185rem;
+  padding-top: 0.02rem;
   line-height: 100%;
+  left: 0;
+  position: absolute;
+}
+
+.additionSame {
+  opacity: 0;
+}
+
+.additionExtra {
+  color: rgb(185, 185, 185);
 }
 
 #box {
@@ -81,6 +88,7 @@ button.dropdown-item {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  position: relative;
 }
 
 .dropdown-region {

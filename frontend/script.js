@@ -18,7 +18,8 @@ function processInputChange() {
     if (event.key === 'Enter') {
       recieveWeather(event);
       elementById('suggestionDropDown').classList.remove('is-active');
-      elementById('addition').innerText = '';
+      elementById('additionSame').innerText = '';
+      elementById('additionExtra').innerText = '';
     }
   });
   elementById('search').addEventListener('focusout', (event) => processClickOnSuggested(event));  // Ki kattintás változása
@@ -41,7 +42,8 @@ function processClickOnSuggested(event) {
       }
       const dropElement = elementById('suggestionDropDown');
       if (dropElement) dropElement.classList.remove('is-active');
-      elementById('addition').innerText = '';
+      elementById('additionSame').innerText = '';
+      elementById('additionExtra').innerText = '';
     }, 0);
   }
 }
@@ -142,8 +144,8 @@ function changeFavorite() {
   else FAVORITES.push(cityName);
 }
 
-function search(list, searchElement) {
-  return list.filter((element) => new RegExp(`(^| )${searchElement}`, 'i').test(element));
+function search(list, searchElement, mustStart) {
+  return list.filter((element) => new RegExp(`(^${mustStart ? '' : '| '})${searchElement}`, 'i').test(element));
 }
 
 // DOM Manipulations
@@ -185,6 +187,7 @@ function displayCard(city, image) {
  * @param {string} input - The input from the inputbox.
 */
 function displaySuggestions (cities, input) {
+  console.log('fut')
   const recievedCities = processCityLists(cities, input);
   cities = recievedCities[0];
   const foundFavCities = recievedCities[1];
@@ -201,8 +204,7 @@ function displaySuggestions (cities, input) {
           'class="favorite-dropdown-icon clickable" src="icons/heart-2-fill-black.svg"');
         insertHTML(`favCity-${index}`, cityName, 'span', 'class=clickable');
       });
-      elementById('addition').innerText = foundFavCities[0];
-    } else elementById('addition').innerText = cities[0][0];
+    }
     if (cities.length > 0 && foundFavCities.length > 0) {
       insertHTML('dropdown-content', '', 'hr', 'class="dropdown-divider"');
     }
@@ -213,6 +215,23 @@ function displaySuggestions (cities, input) {
         insertHTML(`city-${index}`, cityName[0], 'span', 'class="dropdown-city clickable"');
       });
     }
+
+  }
+  const allCities = [...foundFavCities];
+  cities.forEach((city) => {
+    if (!allCities.includes(city[0])) allCities.push(city[0]);
+  });
+  const filteredCities = search(allCities, input, true);
+  console.log(filteredCities);
+  const currentCity = filteredCities[0];
+  let len;
+  if (currentCity) len = input.length - currentCity.length;
+  if (currentCity && input.length > 0 && len < 0) {
+    elementById('additionSame').innerText = input;
+    if (len < 0) elementById('additionExtra').innerText = currentCity.slice(len);
+  } else {
+    elementById('additionSame').innerText = '';
+    elementById('additionExtra').innerText = '';
   }
 }
 
@@ -242,7 +261,9 @@ function displayInputBar() {
   insertHTML('inputBox', '', 'div', 'id=box');
   insertHTML('box', '', 'input', 'list="options" id="search" placeholder=' +
   '"Type in a city\'s name" autocomplete=off type=text class="input is-medium is-rounded"');
-  insertHTML('box', '', 'span', 'id=addition class="addition is-medium" is-right');
+  insertHTML('box', '', 'span', 'id=addition class="addition is-medium"');
+  insertHTML('addition', '', 'span', 'id=additionSame class="additionSame is-medium"');
+  insertHTML('addition', '', 'span', 'id=additionExtra class="additionExtra is-medium"');
   insertHTML('box', '', 'span', 'id=searchIcon class="icon is-left"');
   insertHTML('searchIcon', '', 'img', 'src=icons/search-line.svg');
   processInputChange();
