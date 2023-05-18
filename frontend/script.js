@@ -150,11 +150,12 @@ function changeFavorite() {
   const cityName = elementById('cityname').innerHTML;
   const index = FAVORITES.indexOf(cityName);
   if (index > -1) {
-    FAVORITES.splice(index, 1)
-  };
-  else {
-    FAVORITES.push(cityName)
-  };
+    FAVORITES.splice(index, 1);
+    elementById('favorite').title = 'Add to favorites';
+  } else {
+    FAVORITES.push(cityName);
+    elementById('favorite').title = 'Remove from favorites';
+  }
 }
 
 function search(list, searchElement, mustStart) {
