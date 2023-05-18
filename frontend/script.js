@@ -187,7 +187,6 @@ function displayCard(city, image) {
 function displaySuggestions (cities, input) {
   const recievedCities = processCityLists(cities, input);
   cities = recievedCities[0];
-  console.log(cities);
   const foundFavCities = recievedCities[1];
   if (elementById('suggestionDropDown')) elementById('suggestionDropDown').remove();
   if ((cities.length > 0 || foundFavCities.length > 0) && document.activeElement.id === 'search'){
@@ -221,9 +220,9 @@ function processCityLists(cities, input) {
   const foundFavCities = search(FAVORITES, input);
   if (elementById('cityname')) {
     const currentCity = search([elementById('cityname').innerText], input)[0];
-    console.log(currentCity);
-    if (currentCity && !cities.includes(currentCity)) cities.push(currentCity);
-    console.log(cities);
+    if (currentCity && !cities.some((city) => city[0] === currentCity)) {
+      cities.push([currentCity, '']);
+    }
   }
   cities.forEach((city) => {
     if (FAVORITES.includes(city[0]) && !foundFavCities.includes(city[0])) {

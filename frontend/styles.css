@@ -72,6 +72,7 @@ button.dropdown-item {
   position: absolute;
   left: 60%;
   float: right;
+  line-height: 100%;
 }
 
 #box {
