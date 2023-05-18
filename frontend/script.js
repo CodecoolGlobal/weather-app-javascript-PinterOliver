@@ -21,9 +21,7 @@ function processInputChange() {
   elementById('search').addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
       recieveWeather(event);
-      elementById('suggestionDropDown').classList.remove('is-active');
-      elementById('additionSame').innerText = '';
-      elementById('additionExtra').innerText = '';
+      removeSuggestions();
     }
   });
   elementById('search').addEventListener('focusout', (event) => processClickOnSuggested(event));  // Ki kattintás változása
@@ -44,12 +42,16 @@ function processClickOnSuggested(event) {
       } else {
         recieveWeather(event);
       }
-      const dropElement = elementById('suggestionDropDown');
-      if (dropElement) dropElement.classList.remove('is-active');
-      elementById('additionSame').innerText = '';
-      elementById('additionExtra').innerText = '';
+      removeSuggestions();
     }, 0);
   }
+}
+
+function removeSuggestions() {
+  const dropElement = elementById('suggestionDropDown');
+  if (dropElement) dropElement.classList.remove('is-active');
+  elementById('additionSame').innerText = '';
+  elementById('additionExtra').innerText = '';
 }
 
 function processFavoriteClick() {
@@ -78,9 +80,10 @@ function recieveWeather(event) {
   // töltődő jel, amíg nem kap adatot
   let cityName = event.target.value;
   const foundFavCities = search(FAVORITES, cityName);
-  if (foundFavCities.length > 0) {
-    cityName = foundFavCities[0];
-  } else if (document.querySelector('.is-active')) {
+  const searched = elementById('additionSame').innerText + elementById('additionExtra').innerText;
+  if (searched.length > 0) cityName = searched;
+  else if (foundFavCities.length > 0) cityName = foundFavCities[0];
+  else if (document.querySelector('.is-active')) {
     cityName = elementById('city-0').lastChild.innerText;
   }
   event.target.value = cityName;
@@ -192,7 +195,6 @@ function displayCard(city, image) {
  * @param {string} input - The input from the inputbox.
 */
 function displaySuggestions (cities, input) {
-  console.log('fut')
   const recievedCities = processCityLists(cities, input);
   cities = recievedCities[0];
   const foundFavCities = recievedCities[1];
@@ -220,20 +222,23 @@ function displaySuggestions (cities, input) {
         insertHTML(`city-${index}`, cityName[0], 'span', 'class="dropdown-city clickable"');
       });
     }
-
   }
+  searchForCityToAutocomplete(cities, foundFavCities, input);
+}
+
+function searchForCityToAutocomplete(cities, foundFavCities, input) {
   const allCities = [...foundFavCities];
   cities.forEach((city) => {
     if (!allCities.includes(city[0])) allCities.push(city[0]);
   });
   const filteredCities = search(allCities, input, true);
-  console.log(filteredCities);
   const currentCity = filteredCities[0];
   let len;
   if (currentCity) len = input.length - currentCity.length;
-  if (currentCity && input.length > 0 && len < 0) {
+  if (currentCity && input.length > 0) {
     elementById('additionSame').innerText = input;
     if (len < 0) elementById('additionExtra').innerText = currentCity.slice(len);
+    else elementById('additionExtra').innerText = '';
   } else {
     elementById('additionSame').innerText = '';
     elementById('additionExtra').innerText = '';
