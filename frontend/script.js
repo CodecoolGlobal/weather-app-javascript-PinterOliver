@@ -7,6 +7,7 @@ const FAVORITES = [];
 */
 const loadEvent = () => {
   displayInputBar();
+  insertHTML('root', '', 'div', 'id=container');
 };
 
 // Reaction to user input
@@ -149,8 +150,7 @@ function search(list, searchElement) {
 // DOM Manipulations
 
 function displayCard(city, image) {
-  if (elementById('container')) elementById('container').remove();
-  insertHTML('root', '', 'div', 'id=container');
+  if (elementById('card')) elementById('card').remove();
   insertHTML('container', '', 'div', 'id=card');
   elementById('card').style['background-image'] = `url(${image})`;
   insertHTML('card', '', 'div', 'id=sidepanel');
