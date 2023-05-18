@@ -10,7 +10,8 @@ const loadEvent = () => {
   insertHTML('root', '', 'div', 'id=container');
 
   insertHTML('container', '', 'div', 'id="loading-icon-card" class="loading-icon-card"');
-  insertHTML('loading-icon-card', '', 'i', 'class="fa-solid fa-circle-notch fa-rotate-180 fa-spin fa-2xl" style="color: #000000;"');
+  insertHTML('loading-icon-card', '', 'i',
+    'class="fa-solid fa-circle-notch fa-rotate-180 fa-spin fa-2xl" style="color: #000000;"');
 };
 
 // Reaction to user input
