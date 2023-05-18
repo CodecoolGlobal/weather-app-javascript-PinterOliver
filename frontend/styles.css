@@ -100,15 +100,15 @@ button.dropdown-item {
 #container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 60vh;
+  align-items: stretch;
+  height: 80vh;
 }
 
 #card {
   color: whitesmoke;
   position: relative;
-  width: 60vw;
-  height: 60vh;
+  width: 70vw;
+  height: 70vh;
   border-radius: 3vh;
   background-image: url(images/image-png.png);
   background-size: cover;
@@ -156,15 +156,21 @@ button.dropdown-item {
   padding-top: 0.5vh;
 }
 
-.gray-text-shadow {
+.gray-text-shadow, .forecastdetail {
   text-shadow: 0 0 1.4vh #3B403F;
 }
 
 hr {
   height: 0.15vh;
-    background: white;
-    border: none;
-    margin: 0 5%;
+  background: white;
+  border: none;
+  margin: 0 5%;
+}
+
+#bottommain hr {
+  width: 100%;
+  align-self: center;
+  margin-bottom: 3vh;
 }
 
 .skyimg {
@@ -205,7 +211,7 @@ hr {
 .date {
   position: absolute;
   top: 0;
-  right: 25%;
+  right: 20%;
   font-weight: 200;
   padding: 3vh;
   text-shadow: 0 0 1.4vh #0d0d0d, 0 0 0.7vh #0d0d0d;
@@ -222,7 +228,7 @@ hr {
   justify-content: flex-end;
   flex-direction: column;
   height: 100%;
-  width: 75%;
+  width: 80%;
   padding: 3vh;
 }
 
@@ -234,7 +240,7 @@ hr {
 
  #sidepanel {
   right: 0;
-  width: 25%;
+  width: 20%;
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -280,4 +286,39 @@ hr {
 
 span img {
   width: 3.3vh;
+}
+
+.forecastbox {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.forecastday {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(108, 122, 122, 0.33);
+  backdrop-filter: blur(0.4vh);
+  width: 6vw;
+  border-radius: 10%;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.forecastdetail {
+  
+}
+
+.forecastname {
+  
+}
+
+.forecastmax, .forecastmin {
+  
+}
+
+.forecasticon {
+  height: 6vh;
+  width: 6vh;
+  margin: -1vh;
 }

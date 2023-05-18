@@ -219,6 +219,7 @@ function displayCard(city, image) {
   insertHTML('wind', `${city.current.wind_kph} km/h (${city.current.wind_dir})`, 'span', '');
   insertHTML('card', '', 'div', 'id=bottommain');
   insertHTML('bottommain', city.location.name, 'div', 'id=cityname class=cityname');
+  insertHTML('bottommain', '', 'hr', '');
   insertHTML('bottommain', '', 'div', 'id=forecast class=forecastbox');
   displayForecast(city);
   insertHTML('card', '', 'div', 'id=favorite class=favorite title="Add to favorites"');
@@ -241,9 +242,15 @@ function displayForecast(city) {
       console.log(index);
       insertHTML('forecast', '', 'div', `id=days-${index} class=forecastday`);
       insertHTML(`days-${index}`, index, 'div', 'class="forecastdetail forecastname"');
-      insertHTML(`days-${index}`, day.day['maxtemp_c'], 'div', 'class="forecastdetail forecastmax"');
+      insertHTML(`days-${index}`, '', 'div', `id=max-${index} class="forecastdetail forecastmax icon-text"`);
+      insertHTML(`max-${index}`, '', 'span', `id=maxicon-${index} class="icon"`);
+      insertHTML(`maxicon-${index}`, '', 'i', 'class="fal fa-temperature-up"');
+      insertHTML(`max-${index}`, `${day.day['maxtemp_c']} °C`, 'span', '');
       insertHTML(`days-${index}`, '', 'img', `src=${day.day.condition.icon} class="forecastdetail forecasticon"`);
-      insertHTML(`days-${index}`, day.day['mintemp_c'], 'div', 'class="forecastdetail forecastmin"');
+      insertHTML(`days-${index}`, '', 'div', `id=min-${index} class="forecastdetail forecastmin icon-text"`);
+      insertHTML(`min-${index}`, '', 'span', `id=minicon-${index} class="icon"`);
+      insertHTML(`minicon-${index}`, '', 'i', 'class="fal fa-temperature-down"');
+      insertHTML(`min-${index}`, `${day.day['mintemp_c']} °C`, 'span', '');
     }
   }
 }
