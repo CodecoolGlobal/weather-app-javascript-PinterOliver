@@ -78,7 +78,7 @@ function recieveWeather(event) {
   let cityName = event.target.value;
   const foundFavCities = search(FAVORITES, cityName);
   const searched = elementById('additionSame').innerText + elementById('additionExtra').innerText;
-  if (searched.length > 0) cityName = searched;
+  if (searched.length > 0) cityName = capitalize(searched);
   else if (foundFavCities.length > 0) cityName = foundFavCities[0];
   else if (document.querySelector('.is-active')) {
     cityName = elementById('city-0').lastChild.innerText;
@@ -152,6 +152,49 @@ function search(list, searchElement, mustStart) {
   return list.filter((element) => new RegExp(`(^${mustStart ? '' : '| '})${searchElement}`, 'i').test(element));
 }
 
+function capitalize(string) {
+  return string
+    .split(' ')
+    .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+}
+
+function searchForCityToAutocomplete(cities, foundFavCities, input) {
+  const allCities = [...foundFavCities];
+  cities.forEach((city) => {
+    if (!allCities.includes(city[0])) allCities.push(city[0]);
+  });
+  const filteredCities = search(allCities, input, true);
+  const currentCity = filteredCities[0];
+  let len;
+  if (currentCity) len = input.length - currentCity.length;
+  if (currentCity && input.length > 0) {
+    elementById('additionSame').innerText = input;
+    if (len < 0) elementById('additionExtra').innerText = currentCity.slice(len);
+    else elementById('additionExtra').innerText = '';
+  } else {
+    elementById('additionSame').innerText = '';
+    elementById('additionExtra').innerText = '';
+  }
+}
+
+function processCityLists(cities, input) {
+  const foundFavCities = search(FAVORITES, input);
+  if (elementById('cityname')) {
+    const currentCity = search([elementById('cityname').innerText], input)[0];
+    if (currentCity && !cities.some((city) => city[0] === currentCity)) {
+      cities.push([currentCity, '']);
+    }
+  }
+  cities.forEach((city) => {
+    if (FAVORITES.includes(city[0]) && !foundFavCities.includes(city[0])) {
+      foundFavCities.push(city[0]);
+    }
+  });
+  cities = cities.filter((city) => !foundFavCities.includes(city[0]));
+  return [cities, foundFavCities];
+}
+
 // DOM Manipulations
 
 function displayCard(city, image) {
@@ -176,12 +219,33 @@ function displayCard(city, image) {
   insertHTML('wind', `${city.current.wind_kph} km/h (${city.current.wind_dir})`, 'span', '');
   insertHTML('card', '', 'div', 'id=bottommain');
   insertHTML('bottommain', city.location.name, 'div', 'id=cityname class=cityname');
+  insertHTML('bottommain', '', 'div', 'id=forecast class=forecastbox');
+  displayForecast(city);
   insertHTML('card', '', 'div', 'id=favorite class=favorite title="Add to favorites"');
   if (FAVORITES.includes(city.location.name)) {
     elementById('favorite').classList.add('activefavorite');
   }
   processFavoriteClick();
   insertHTML('card', city.current.last_updated, 'div', 'class="date black-text-shadow"');
+}
+
+function displayForecast(city) {
+  const DAYS_OF_THE_WEEK =
+  ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  let isFirst = true;
+  for (const day of city.forecast.forecastday) {
+    if (isFirst) isFirst = !isFirst;
+    else {
+      const index = DAYS_OF_THE_WEEK[new Date(day.date).getDay()];
+      console.log(new Date(day.date).getDay());
+      console.log(index);
+      insertHTML('forecast', '', 'div', `id=days-${index} class=forecastday`);
+      insertHTML(`days-${index}`, index, 'div', 'class="forecastdetail forecastname"');
+      insertHTML(`days-${index}`, day.day['maxtemp_c'], 'div', 'class="forecastdetail forecastmax"');
+      insertHTML(`days-${index}`, '', 'img', `src=${day.day.condition.icon} class="forecastdetail forecasticon"`);
+      insertHTML(`days-${index}`, day.day['mintemp_c'], 'div', 'class="forecastdetail forecastmin"');
+    }
+  }
 }
 
 /**
@@ -219,42 +283,6 @@ function displaySuggestions (cities, input) {
     }
   }
   searchForCityToAutocomplete(cities, foundFavCities, input);
-}
-
-function searchForCityToAutocomplete(cities, foundFavCities, input) {
-  const allCities = [...foundFavCities];
-  cities.forEach((city) => {
-    if (!allCities.includes(city[0])) allCities.push(city[0]);
-  });
-  const filteredCities = search(allCities, input, true);
-  const currentCity = filteredCities[0];
-  let len;
-  if (currentCity) len = input.length - currentCity.length;
-  if (currentCity && input.length > 0) {
-    elementById('additionSame').innerText = input;
-    if (len < 0) elementById('additionExtra').innerText = currentCity.slice(len);
-    else elementById('additionExtra').innerText = '';
-  } else {
-    elementById('additionSame').innerText = '';
-    elementById('additionExtra').innerText = '';
-  }
-}
-
-function processCityLists(cities, input) {
-  const foundFavCities = search(FAVORITES, input);
-  if (elementById('cityname')) {
-    const currentCity = search([elementById('cityname').innerText], input)[0];
-    if (currentCity && !cities.some((city) => city[0] === currentCity)) {
-      cities.push([currentCity, '']);
-    }
-  }
-  cities.forEach((city) => {
-    if (FAVORITES.includes(city[0]) && !foundFavCities.includes(city[0])) {
-      foundFavCities.push(city[0]);
-    }
-  });
-  cities = cities.filter((city) => !foundFavCities.includes(city[0]));
-  return [cities, foundFavCities];
 }
 
 /**
