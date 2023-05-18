@@ -232,6 +232,9 @@ hr {
   height: 100%;
   width: 77.5%;
   padding: 3vh;
+  position: absolute;
+  top: 0;
+  right: 22.5%;
 }
 
 .cityname {
@@ -251,6 +254,7 @@ hr {
   flex-direction: column;
   height: 100%;
   background-color: rgba(108, 122, 122, 0.33);
+  border: 1px rgba(255, 255, 255, 0.1) solid;
   border-radius: 0 3vh 3vh 0;
   backdrop-filter: blur(0.4vh);
 }
@@ -260,7 +264,8 @@ hr {
   top: 0;
   left: 0;
   border-radius: 50%;
-  border: 0.3vh solid rgba(255, 255, 255, 0.6);
+  /*border: 0.3vh solid rgba(255, 255, 255, 0.6);*/
+  border: 1px rgba(255, 255, 255, 0.1) solid;
   padding: 3vh;
   margin: 1.5vh;
   width: 3.3vh;
@@ -276,7 +281,7 @@ hr {
 
 .favorite:hover {
   /*background-color: rgba(108, 122, 122, 0.25);*/
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.2);
   cursor: pointer;
   transition: .2s;
 }
@@ -289,7 +294,7 @@ hr {
   height: 100%;
   width: 500px;
   padding: 0;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
 }

@@ -9,8 +9,8 @@ const loadEvent = () => {
   displayInputBar();
   insertHTML('root', '', 'div', 'id=container');
 
-  //insertHTML('container', '', 'div', 'id="loading-icon-card" class="loading-icon-card"');
-  //insertHTML('loading-icon-card', '', 'i', 'class="fa-solid fa-circle-notch fa-rotate-180 fa-spin fa-2xl" style="color: #000000;"');
+  insertHTML('container', '', 'div', 'id="loading-icon-card" class="loading-icon-card"');
+  insertHTML('loading-icon-card', '', 'i', 'class="fa-solid fa-circle-notch fa-rotate-180 fa-spin fa-2xl" style="color: #000000;"');
 };
 
 // Reaction to user input
@@ -92,6 +92,8 @@ function recieveWeather(event) {
 
 async function processWeather(cityName) {
   // állítsa be a container backgroundot töltő iconra (itt)
+  elementById('loading-icon-card').style.display = 'flex';
+  if (elementById('card')) elementById('card').remove();
   const NUMBER_OF_DAYS_TO_FORECAST = 8;
   const NUMBER_OF_PICTURES = 1;
   const actionWeather = 'forecast';
@@ -121,6 +123,8 @@ async function processWeather(cityName) {
   }
   displayCard(recieved, image);
   // állítsa be a container backgroundot none-ra (itt)
+  elementById('loading-icon-card').style.display = 'none';
+  elementById('card').style.display = 'flex';
 }
 
 async function getFetchOf(body, headers) {
@@ -150,11 +154,11 @@ function changeFavorite() {
   const cityName = elementById('cityname').innerHTML;
   const index = FAVORITES.indexOf(cityName);
   if (index > -1) {
-    FAVORITES.splice(index, 1)
-  };
+    FAVORITES.splice(index, 1);
+  }
   else {
-    FAVORITES.push(cityName)
-  };
+    FAVORITES.push(cityName);
+  }
 }
 
 function search(list, searchElement, mustStart) {
