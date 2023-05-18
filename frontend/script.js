@@ -149,8 +149,12 @@ function changeFavorite() {
   elementById('favorite').classList.toggle('activefavorite');
   const cityName = elementById('cityname').innerHTML;
   const index = FAVORITES.indexOf(cityName);
-  if (index > -1) FAVORITES.splice(index, 1);
-  else FAVORITES.push(cityName);
+  if (index > -1) {
+    FAVORITES.splice(index, 1)
+  };
+  else {
+    FAVORITES.push(cityName)
+  };
 }
 
 function search(list, searchElement, mustStart) {
@@ -232,7 +236,8 @@ function displayCard(city, image) {
     elementById('favorite').classList.add('activefavorite');
   }
   processFavoriteClick();
-  insertHTML('card', city.current.last_updated, 'div', 'class="date black-text-shadow"');
+  insertHTML('card', city.current.last_updated, 'div',
+    'class="date black-text-shadow" title="Last updated"');
 }
 
 function displayForecast(city) {
@@ -247,14 +252,18 @@ function displayForecast(city) {
       console.log(index);
       insertHTML('forecast', '', 'div', `id=days-${index} class=forecastday`);
       insertHTML(`days-${index}`, index, 'div', 'class="forecastdetail forecastname"');
-      insertHTML(`days-${index}`, '', 'div', `id=max-${index} class="forecastdetail forecastmax icon-text"`);
+      insertHTML(`days-${index}`, '', 'div',
+        `id=maxcont-${index} class="forecastdetail forecastmax" title="Maximum temperature"`);
+      insertHTML(`maxcont-${index}`, '', 'span', `id=max-${index} class="icon-text"`);
       insertHTML(`max-${index}`, '', 'span', `id=maxicon-${index} class="icon"`);
-      insertHTML(`maxicon-${index}`, '', 'i', 'class="fal fa-temperature-up"');
+      insertHTML(`maxicon-${index}`, '', 'i', 'class="fas fa-temperature-up fa-sm"');
       insertHTML(`max-${index}`, `${day.day['maxtemp_c']} °C`, 'span', '');
       insertHTML(`days-${index}`, '', 'img', `src=${day.day.condition.icon} class="forecastdetail forecasticon"`);
-      insertHTML(`days-${index}`, '', 'div', `id=min-${index} class="forecastdetail forecastmin icon-text"`);
+      insertHTML(`days-${index}`, '', 'div',
+        `id=mincont-${index} class="forecastdetail forecastmin" title="Minimum temperature"`);
+      insertHTML(`mincont-${index}`, '', 'span', `id=min-${index} class="icon-text"`);
       insertHTML(`min-${index}`, '', 'span', `id=minicon-${index} class="icon"`);
-      insertHTML(`minicon-${index}`, '', 'i', 'class="fal fa-temperature-down"');
+      insertHTML(`minicon-${index}`, '', 'i', 'class="fas fa-temperature-down fa-sm"');
       insertHTML(`min-${index}`, `${day.day['mintemp_c']} °C`, 'span', '');
     }
   }
