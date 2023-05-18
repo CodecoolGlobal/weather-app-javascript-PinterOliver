@@ -8,6 +8,9 @@ const FAVORITES = [];
 const loadEvent = () => {
   displayInputBar();
   insertHTML('root', '', 'div', 'id=container');
+
+  //insertHTML('container', '', 'div', 'id="loading-icon-card" class="loading-icon-card"');
+  //insertHTML('loading-icon-card', '', 'i', 'class="fa-solid fa-circle-notch fa-rotate-180 fa-spin fa-2xl" style="color: #000000;"');
 };
 
 // Reaction to user input
@@ -88,6 +91,7 @@ function recieveWeather(event) {
 }
 
 async function processWeather(cityName) {
+  // állítsa be a container backgroundot töltő iconra (itt)
   const NUMBER_OF_DAYS_TO_FORECAST = 8;
   const NUMBER_OF_PICTURES = 1;
   const actionWeather = 'forecast';
@@ -116,6 +120,7 @@ async function processWeather(cityName) {
     image = recievedImages.photos[0].src.landscape;
   }
   displayCard(recieved, image);
+  // állítsa be a container backgroundot none-ra (itt)
 }
 
 async function getFetchOf(body, headers) {
